@@ -1,0 +1,110 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<title>edit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
+<link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+<link href="/css/custom.css" rel="stylesheet" />
+
+<!--     Fonts and icons     -->
+<!--  
+<link
+	href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700'
+	rel='stylesheet' type='text/css' />
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+	rel="stylesheet" />
+<link href="/bootstrap/assets/css/nucleo-icons.css" rel="stylesheet" />
+-->
+<style>
+p.msg {
+	border: solid 1px lightgray;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div th:replace="navi::nav"></div>
+	<div class="wrapper">
+		<div class="filter"></div>
+		<div class="main">
+			<div class="section section-buttons">
+				<div class="container">
+					<div class="alert alert-success" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}">フラッシュメッセージ</div>
+					<div class="tim-title">
+						<h2 th:text="メンバー編集"></h2>
+					</div>
+					<div class="tim-title">
+					    <h3 th:text="編集内容"></h3>
+					</div>
+					<form th:method="post" th:action="@{'/member/edit/confirm'}" th:object="${memberForm}">
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group" th:classappend="${#fields.hasErrors('no')}? has-error">
+								<label class="control-label">背番号</label>
+								<input type="text" class="form-control" th:field="*{no}">
+								<span class="text-danger" th:if="${#fields.hasErrors('no')}" th:errors="*{no}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group" th:classappend="${#fields.hasErrors('memberName')}? has-error">
+								<label class="control-label">名前</label>
+								<input type="text" class="form-control" th:field="*{memberName}">
+								<span class="text-danger" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group" th:classappend="${#fields.hasErrors('memberNameKn')}? has-error">
+								<label class="control-label">名前（カナ）</label>
+								<input type="text" class="form-control" th:field="*{memberNameKn}">
+								<span class="text-danger" th:if="${#fields.hasErrors('memberNameKn')}" th:errors="*{memberNameKn}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">
+							<div class="form-group"  th:classappend="${#fields.hasErrors('grade')}? has-error">
+								<label class="control-label">学年</label>
+								<input type="text" class="form-control" th:field="*{grade}" th:value="${grade}">
+								<span class="text-danger" th:if="${#fields.hasErrors('grade')}" th:errors="*{grade}"></span>
+							</div>
+						</div>
+					</div>
+                     <div class="row submit-btn-parents">
+						<div>
+							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="cancel" value="　戻　る　"/>
+						</div>
+						<div>
+							<input type="hidden" th:field="*{memberId}" th:value="${memberId}" />
+							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="confirm" value="確認画面へ"/>
+						</div>
+                    </div>
+                    </form>
+                 </div>
+                                     		
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Core JS Files -->
+<script src="/bootstrap/assets/js/jquery-3.2.1.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/jquery-ui-1.12.1.custom.min.js"
+	type="text/javascript"></script>
+<script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript" ></script>
+
+<!--  Paper Kit Initialization snd functons -->
+<!--  <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script> -->
+
+</html>

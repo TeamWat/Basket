@@ -1,0 +1,17 @@
+<!DOCTYPE hibernate-configuration
+    PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+    
+<hibernate-configuration>
+<session-factory>
+<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/basket</property>
+<property name="hibernate.connection.username">testuser01</property>
+<property name="hibernate.connection.password">0gVeNWb0YuIlx8DE</property>
+<property name="hibernate.connection.pool_size">3</property>
+<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+<property name="hibernate.show_sql">true</property>
+<property name="hibernate.hbm2ddl.auto">update</property>
+<!--  Mapping files  -->
+</session-factory>
+</hibernate-configuration>

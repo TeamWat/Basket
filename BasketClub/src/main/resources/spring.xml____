@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DataSource -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  	<property name="url" value="jdbc:mysql://localhost:3306/basket" />  
+  	<property name="username" value="testuser01" />   
+  	<property name="password" value="0gVeNWb0YuIlx8DE" />  
+	</bean>
+
+	<!--  Hibernate 4 SessionFactory  -->
+	<bean id="hibernate4AnnotatedSessionFactory"
+	    class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+	    <property name="dataSource" ref="dataSource" />
+	    <property name="annotatedClasses">
+	        <list>
+	            <value>jp.wat.entity.ScheduleData</value>
+	        </list>
+	    </property>
+	    <property name="hibernateProperties">
+	        <props>
+	            <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+	            <prop key="hibernate.show_sql">true</prop>
+	        </props>
+	    </property>
+	</bean>
+<!--    <bean id="scheduleDao" class="jp.wat.basket.dao.ScheduleDaoImpl">
+       <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" ></property>
+-->
+   </bean>
+</beans>

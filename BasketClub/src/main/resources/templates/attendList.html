@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>出欠一覧</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<!-- コンテンツを配置 -->
+<nav>
+  <div>
+    <a class="sitename" href="attend">basket ball club</a>
+    <a class="show" href="#menu">Menu</a><a class="hide" href="#hidemenu">Menu</a>
+    <ul>
+      <li><a href="//sixrevisions.com">Home</a></li>
+      <li><a href="//sixrevisions.com/about/">About</a></li>
+      <li><a href="//sixrevisions.com/contact/">Contact</a></li>
+      <li><a href="//twitter.com/sixrevisions">Twitter</a></li>
+      <li><a href="//www.facebook.com/sixrevisions">Facebook</a></li>
+  </ul>
+  </div>
+</nav>
+
+<section class="content">
+  <div class="description">  
+    <h1>Fixed Navigation Bar</h1>
+  </div>
+  <div>
+  <table border="1">
+  	<tr>
+  	<th>ID</th><th>名前</th><th>Mail</th><th>権限</th><th>登録日時</th><th>登録ユーザー</th><th>更新日時</th><th>更新ユーザー</th><th>削除フラグ</th>
+  	</tr>
+  	<tr th:each= "user_master : ${userList}">
+  	    <td th:text="${user_master.user_id}"></td>
+  	    <td th:text="${user_master.user_name}"></td>
+  	    <td th:text="${user_master.mail}"></td>
+  	    <td th:text="${user_master.role}"></td>
+  	    <td th:text="${user_master.regist_time}"></td>
+  	    <td th:text="${user_master.regist_user}"></td>
+  	    <td th:text="${user_master.update_time}"></td>
+  	    <td th:text="${user_master.update_user}"></td>
+  	    <td th:text="${user_master.delete_flg}"></td>
+  	</tr>
+  </table>
+  </div>
+</section>
+<section class="some-related-articles">
+  <h1>Articles About Website Navigation</h1>
+ </section>
+
+<!-- SCRIPTS -->
+<!-- Example: <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+</body>
+</html>

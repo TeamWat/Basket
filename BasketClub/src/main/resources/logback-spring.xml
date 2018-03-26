@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="org.springframework.web" level="INFO"/>
+    
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+    
+    <springProfile name="dev">
+        <!--ログレベル -->
+        <property name="LOG_LEVEL" value="DEBUG" />
+        <!--log4jdbc-log4j2 -->
+        <logger name="jdbc.sqltiming" level="INFO" />
+        <logger name="jdbc.resultsettable" level="INFO" />
+        <logger name="jdbc.connection" level="WARN" />
+    </springProfile>
+    
+        <!--ログレベル設定本番用 -->
+    <springProfile name="prd">
+        <!--ログレベル -->
+        <property name="LOG_LEVEL" value="INFO" />
+        <!--log4jdbc-log4j2 -->
+        <logger name="jdbc.sqltiming" level="INFO" />
+        <logger name="jdbc.resultsettable" level="INFO" />
+        <logger name="jdbc.connection" level="WARN" />
+    </springProfile>
+    
+    <!--共通log4jdbc-log4j2 -->
+    <logger name="jdbc.sqlonly" level="DEBUG" />
+    <logger name="jdbc.resultset" level="OFF" />
+    <logger name="jdbc.audit" level="OFF" />
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    	<encoder>
+        	<pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %level %logger{0} - %msg \(%file:%line\)%n</pattern>
+    	</encoder>
+    	<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        	<level>INFO</level>
+    	</filter>
+	</appender>
+    
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>logs/app.log</file>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	<fileNamePattern>logs/app.%d{yyyy-MM-dd}.log.tar.gz</fileNamePattern>
+        	<maxHistory>7</maxHistory>
+    	</rollingPolicy>
+    	<encoder>
+        	<pattern>%d{yyyy-MM-dd'T'HH:mm:ss'Z'} - %m%n</pattern>
+    	</encoder>
+	</appender>
+
+	<root level="INFO">
+    	<appender-ref ref="FILE" />
+	</root>
+	
+	<logger name="FILE" additivity="false">
+    	<level value="INFO" />
+    	<appender-ref ref="FILE" />
+	</logger>
+   
+</configuration>

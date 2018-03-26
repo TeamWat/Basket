@@ -1,0 +1,104 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<title>member</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="webjars/jquery-ui/1.12.1/jquery-ui.min.css" />
+
+<link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
+<link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+<link href="/css/custom.css" rel="stylesheet" />
+
+<!--     Fonts and icons     -->
+<link
+	href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700'
+	rel='stylesheet' type='text/css' />
+<link
+	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
+	rel="stylesheet" />
+<link href="bootstrap/assets/css/nucleo-icons.css" rel="stylesheet" />
+<style>
+p.msg {
+	border: solid 1px lightgray;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div th:replace="navi::nav"></div>
+	<div class="wrapper">
+		<div class="filter"></div>
+		<div class="main">
+			<div class="section section-buttons">
+				<div class="container">
+					<div class="alert alert-success" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}">フラッシュメッセージ</div>
+					<div class="tim-title">
+						<h2>Basic Elements</h2>
+					</div>
+					<div class="tim-title label-btn">
+						<div class="label-btn">
+							<div>
+								<h3 class="title">登録メンバー</h3>
+							</div>
+							<div>
+								<a href="member/regist" class="btn btn-info changeTeam">→　Big</a>
+							</div>
+						</div>
+						<div>
+							<a href="/member/regist/input" class="btn btn-info">新規メンバー登録</a>
+						</div>
+					</div>
+					<div class="row">
+						<table class="table table-hover ">
+							<thead>
+								<tr>
+									<th>No</th>
+									<th>名前</th>
+									<th>学年</th>
+									<th style="width:170px;"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="member: ${memberList}"  data-href="member/regist" class="tr-hover">
+									<td th:text="${member.no}" class="vertical-min"></td>
+									<td th:text="${member.memberName}" class="vertical-min"></td>
+									<td th:text="${member.grade}" class="vertical-min"></td>
+									<td class="vertical-min">
+									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
+									  <a th:href="@{'member/delete/confirm/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Core JS Files -->
+
+<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript" ></script>
+<script src="/js/member.js" type="text/javascript" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
+
+<!-- Plugin for Switches -->
+<script src="/bootstrap/assets/js/bootstrap-switch.min.js"></script>
+
+<!--  Plugins for Slider -->
+<script src="/bootstrap/assets/js/nouislider.js"></script>
+
+<!--  Paper Kit Initialization snd functons -->
+<script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
+
+</html>

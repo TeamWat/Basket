@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/basket
+    username: testuser01
+    password: 0gVeNWb0YuIlx8DE
+    driverClassName: com.mysql.jdbc.Driver
