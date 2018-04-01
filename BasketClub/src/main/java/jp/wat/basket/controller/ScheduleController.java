@@ -1,9 +1,13 @@
 package jp.wat.basket.controller;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import jp.wat.basket.service.ScheduleService;
+import jp.wat.basket.common.Util;
 import jp.wat.basket.dao.UserDao;
 import jp.wat.basket.entity.Schedule;
 import jp.wat.basket.entity.UserMaster;
@@ -13,22 +17,34 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ScheduleController {
 	   
 	@Autowired
 	ScheduleService scheduleService;
+	
+	@Autowired
+	Util util;
 
 	@RequestMapping(value="/schedule", method=RequestMethod.GET)
-	public String index(Model model){
+	public String index(Model model, @RequestParam(value = "month", required = false) Integer month){
 		
-		// TODO 年度を設定する仕組みを検討。暫定で2017を設定
-		Integer nendo = Integer.valueOf(2017);
-		Integer month = Integer.valueOf(10);
+		// TODO 年度の初期設定はログイン時にセッションに格納するよう変更
+		Integer nendo = util.getNendo();
+		if(month == null){
+			// 本日日付から monthの初期値を設定
+			LocalDateTime today = LocalDateTime.now();
+			DateTimeFormatter df1 = DateTimeFormatter.ofPattern("MM");
+			month = Integer.valueOf(df1.format(today));
+		}
 		
+		System.out.println(month);
+
 		List<Schedule> scheduleList= scheduleService.getScheduleData(nendo, month);
 
 		model.addAttribute("scheduleList", scheduleList);
