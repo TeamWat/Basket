@@ -74,18 +74,47 @@ p.msg {
 								</tr>
 							</thead>
 							<tbody>
+							    <tr id="templete">
+									<form method="post" th:action="@{/schedule/edit/complete}" th:id="form">
+										<td><input type="text" class="form-control wid4 asyncUpd" th:id="col1_0" th:name="col1" /></td>
+										<td><input type="text" class="form-control wid4 asyncUpd" th:id="col2_0" th:name="col2" /></td>
+										<td><input type="text"  class="form-control asyncUpd" th:id="col3_0" th:name="col3" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="col4_0" th:name="col4" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="col5_0" th:name="col5" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="col6_0" th:name="col6" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="col7_0" th:name="col7" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="col8_0" th:name="col8" /></td>
+										
+										<td>
+										<input type="button" class="form-control uplist" th:name="up" th:value="上"/>
+										<input type="button" class="form-control downlist" th:name="down" th:value="下"/>
+										<input type="button" class="form-control addlist" th:name="add" th:value="＋"/>
+										<input type="button" class="form-control removelist" th:name="remove" th:value="ー"/>
+										</td>
+										<input type="hidden" class="form-control" th:name="seq"/>
+										<input type="hidden" class="form-control" th:name="nendo" th:value="${nendo}" />
+										<input type="hidden" class="form-control" th:name="month" th:value="${month}" />
+										<td><input type="submit" class="none" th:name="submit_" /></td>
+									</form>
+								</tr>
 								<tr th:each="schedule, stat: ${scheduleFormList}">
 									<form method="post" th:action="@{/schedule/edit/complete}" th:id="|form${stat.index}|">
-										<td><input type="text" class="form-control wid4" th:id="|col1_${stat.index}|" th:name="col1" th:value="*{schedule.col1}" 
-                                        th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control wid4" th:id="|col2_${stat.index}|" th:name="col2" th:value="*{schedule.col2}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text"  class="form-control" th:id="|col3_${stat.index}|" th:name="col3" th:value="*{schedule.col3}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control" th:id="|col4_${stat.index}|" th:name="col4" th:value="*{schedule.col4}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control" th:id="|col5_${stat.index}|" th:name="col5" th:value="*{schedule.col5}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control" th:id="|col6_${stat.index}|" th:name="col6" th:value="*{schedule.col6}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control" th:id="|col7_${stat.index}|" th:name="col7" th:value="*{schedule.col7}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<td><input type="text" class="form-control" th:id="|col8_${stat.index}|" th:name="col8" th:value="*{schedule.col8}" th:onBlur="|asyncUpd(${stat.index});|" /></td>
-										<input type="hidden" class="form-control" th:name="seq" th:value="*{schedule.seq}" />
+										<td><input type="text" class="form-control wid4 asyncUpd" th:id="|col1_${stat.index}|" th:name="col1" th:value="*{schedule.col1}" /></td>
+										<td><input type="text" class="form-control wid4 asyncUpd" th:id="|col2_${stat.index}|" th:name="col2" th:value="*{schedule.col2}" /></td>
+										<td><input type="text"  class="form-control asyncUpd" th:id="|col3_${stat.index}|" th:name="col3" th:value="*{schedule.col3}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|col4_${stat.index}|" th:name="col4" th:value="*{schedule.col4}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|col5_${stat.index}|" th:name="col5" th:value="*{schedule.col5}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|col6_${stat.index}|" th:name="col6" th:value="*{schedule.col6}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|col7_${stat.index}|" th:name="col7" th:value="*{schedule.col7}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|col8_${stat.index}|" th:name="col8" th:value="*{schedule.col8}" /></td>
+										
+										<td>
+										<input type="button" class="form-control uplist" th:id="|${stat.index}|" th:name="up" th:value="上"/>
+										<input type="button" class="form-control downlist" th:id="|${stat.index}|" th:name="down" th:value="下"/>
+										<input type="button" class="form-control addlist" th:id="|${stat.index}|" th:name="add" th:value="＋"/>
+										<input type="button" class="form-control removelist" th:id="|${stat.index}|" th:name="remove" th:value="ー"/>
+										</td>
+										<input type="hidden" class="form-control" th:name="seq" th:id="|seq_${stat.index}|" th:value="*{schedule.seq}" />
 										<input type="hidden" class="form-control" th:name="nendo" th:value="${nendo}" />
 										<input type="hidden" class="form-control" th:name="month" th:value="${month}" />
 										<td><input type="submit" class="none" th:name="|submit_${stat.index}|" /></td>
@@ -105,14 +134,117 @@ p.msg {
 </body>
 
 <!-- Core JS Files -->
-<script src="/js/schedule.js" type="text/javascript"></script>
 <script src="/bootstrap/assets/js/jquery-3.2.1.js" type="text/javascript"></script>
-<script src="/bootstrap/assets/js/jquery-ui-1.12.1.custom.min.js"
-	type="text/javascript"></script>
+<script src="/bootstrap/assets/js/jquery-ui-1.12.1.custom.min.js" type="text/javascript"></script>
 <script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
+<script src="/js/schedule.js" type="text/javascript"></script>
 <!--  Paper Kit Initialization snd functons -->
 <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
+
+<script type="text/javascript">
+$(document).ready( function() {
+
+	// 行を追加する
+	$('.addlist').on("click", function () {
+		var t = $(this).parent().parent();
+		$('tr#templete').eq(0).clone(true).insertAfter(t);
+		
+		// 現在のDOMで表示されているtrの数を取得
+		var $row_cnt = $("table tbody").children().length - 1;
+		
+		// trにコピーした行のidを設定（対象行の特定用）
+		t.next("tr").attr('id', 'row' + $row_cnt);
+		
+		// form のidを設定
+		$('#row' + $row_cnt + ' > form').attr('id',  'form'+ $row_cnt);
+		
+		// 子要素のinputにid、form-IDを設定（繰り返し）
+		$('#row' + $row_cnt + ' > td > input').each(function() {
+			var $base_name = $(this).attr('name');
+			// idの設定
+			$(this).attr('id',  $base_name +'_'+ $row_cnt);
+			// formの指定　（cloneしたときにformの閉じタグの認識がうまくいかないため、inputタグごとにformを設定する）
+			$(this).attr('form', 'form'+ $row_cnt);
+		});
+		
+		// hidden要素のinputにid、form-IDを設定（繰り返し）
+		$('#row' + $row_cnt + ' > input').each(function() {
+			var $base_name = $(this).attr('name');
+			// idの設定
+			$(this).attr('id',  $base_name +'_'+ $row_cnt);
+			// formの指定
+			$(this).attr('form', 'form'+ $row_cnt);
+		});
+	}); 
+
+	
+	// 行を削除する
+	$('.removelist').on("click", function () {
+		
+		var $index = $(this).attr('id').lastIndexOf("_");
+		var $formNo = $(this).attr('id').slice($index+1)
+		
+		// 対象行のSEQが空の場合はDB未登録のデータのためDB更新は行わない
+		var $selector = '#seq_' + $formNo;
+		var $selectorVal = $($selector).attr('value');
+		
+		if (typeof $selectorVal != "undefined") {
+			// 非同期DB更新
+			asyncDel($formNo).done(function(result) {
+		    	//alert("成功");
+			}).fail(function(result) {
+				//alert("失敗");
+			});
+		}
+		
+		// 画面の表示行を削除する
+		$(this).parent().parent().remove();
+	});
+	
+ 	// 行を一つ上に移動させる
+	$('.uplist').on("click", function () {
+		var t = $(this).parent().parent();
+		if(t.prev("tr")) {
+			t.insertBefore(t.prev("tr")[0]);
+		}
+	});
+
+ 	// 行を一つ下に移動させる
+	$('.downlist').on('click', function() {
+		var t = $(this).parent().parent();
+		if(t.next("tr")) {
+			t.insertAfter(t.next("tr")[0]);
+		}
+	});
+
+ 	// 行の一部を変更する
+	$('.asyncUpd').on("change", function () {
+		
+		// idのアンダーバーの後ろが formNo
+		var $index = $(this).attr('id').lastIndexOf("_");
+		var $formNo = $(this).attr('id').slice($index+1)
+		
+		
+		// 非同期DB更新
+ 		asyncUpd($formNo).done(function(data1, textStatus, jqXHR) {
+			
+			var $selector = '#seq_' + $formNo;
+			var $selectorVal = $($selector).attr('value');
+		
+			// seqのvalueがない場合（追加行）は、valueを設定する。（ ->SEQは以後の更新／削除のキー項目）
+			if (typeof $selectorVal === "undefined") {
+				$($selector).val(data1.seq);
+			}
+	    	
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			//alert("失敗");
+		}); 
+	}); 
+
+});
+</script>
+
 
 </html>

@@ -10,6 +10,8 @@ import jp.wat.basket.form.ScheduleForm;
 import jp.wat.basket.service.ScheduleService;
 
 import org.modelmapper.ModelMapper;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -66,46 +69,47 @@ public class SchduleEditController {
 		model.addAttribute("scheduleFormList", scheduleFormList);
 		return "/schedule/edit/scheduleEdit";
 	}
-	
-	
-	// 非同期 更新処理
-	@Async("scheduleUpdate")
-	public CompletableFuture<String> ScheduleUpdate(Schedule schecdule){
 		
-		// DB更新処理
-		
-		return CompletableFuture.completedFuture("done");
-	}
-	
+	@ResponseBody
 	@RequestMapping(value={"/schedule/edit/complete"}, method=RequestMethod.POST)
-	public String registComplete(@Validated ScheduleForm scheduleForm, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
+	public String asyncUpdate(@Validated ScheduleForm scheduleForm, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes){
 
-		//logger.info("非同期処理スタート");
+		logger.info("非同期処理スタート");
+		logger.debug(ToStringBuilder.reflectionToString(scheduleForm, ToStringStyle.DEFAULT_STYLE)); 
+		
+		Integer newSeq = null;
 		
 		try {
 			ModelMapper modelMapper = new ModelMapper();
 			Schedule schedule = modelMapper.map(scheduleForm, Schedule.class);
-					
+	
 			// 共通項目の設定
 			schedule.setRegistUser(1); //TODO ログインユーザーに変更
 			schedule.setRegistTime(new Timestamp(System.currentTimeMillis()));
 			schedule.setUpdateUser(1); //TODO ログインユーザーに変更
 			schedule.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 			
-			logger.info("[schedule更新]");
-	
-			// DB更新処理 
-			scheduleService.save(schedule);
-		
+			// DB更新処理
+			if(schedule.getSeq() == null){
+				newSeq = scheduleService.insert(schedule);
+				logger.info(Integer.toString(newSeq));
+			}else{
+				scheduleService.save(schedule);
+			}
+			
 		}catch (Exception e) {
 			logger.error(e.getMessage());
 		}finally{
 			sessionStatus.setComplete();
 		}
+		
+		// Json形式で返却する
+		String responseJson = "{\"seq\" :" + newSeq + "}";
+		return responseJson;
+		
+	}
 	
-		return "redirect:/schedule/edit/" + scheduleForm.getMonth();
-	}	
 	
 //	// 変更画面　キャンセル
 //	@RequestMapping(value = {"/member/edit/confirm"}, method = RequestMethod.POST, params = "cancel")
@@ -132,4 +136,28 @@ public class SchduleEditController {
 //		
 //		return "/member/edit/editConfirm";
 //	}
+	
+	@ResponseBody
+	@RequestMapping(value={"/schedule/edit/delete"}, method=RequestMethod.POST)
+	public void deleteComplete(@Validated ScheduleForm scheduleForm, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
+			RedirectAttributes redirectAttributes){
+
+		logger.info("schedule削除 スタート");
+		logger.debug(ToStringBuilder.reflectionToString(scheduleForm, ToStringStyle.DEFAULT_STYLE)); 
+		
+		try {
+			ModelMapper modelMapper = new ModelMapper();
+			Schedule schedule = modelMapper.map(scheduleForm, Schedule.class);
+	
+			// DB更新処理 
+			scheduleService.delete(schedule);
+		
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+		}finally{
+			sessionStatus.setComplete();
+		}
+	}
+	
+	
 }
