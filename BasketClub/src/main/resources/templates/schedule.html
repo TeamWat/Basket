@@ -39,18 +39,18 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="btn-group month-select">
-							<button class="btn btn-outline-info" type="button">04</button>
-						 	<button class="btn btn-outline-info" type="button">05</button>
-						 	<button class="btn btn-outline-info" type="button">06</button>
-							<button class="btn btn-outline-info" type="button">07</button>
-						 	<button class="btn btn-outline-info" type="button">08</button>
-						 	<button class="btn btn-outline-info" type="button">09</button>
-						 	<button class="btn btn-outline-info" type="button">10</button>
-						 	<button class="btn btn-outline-info" type="button">11</button>
-						 	<button class="btn btn-outline-info" type="button">12</button>
-						 	<button class="btn btn-outline-info" type="button">01</button>
-						 	<button class="btn btn-outline-info" type="button">02</button>
-						 	<button class="btn btn-outline-info" type="button">03</button>
+							<button id="month-btn" class="btn" th:classappend="(${month}==4) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="04">04</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==5) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="05">05</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==6) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="06">06</button>
+							<button id="month-btn" class="btn" th:classappend="(${month}==7) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="07">07</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==8) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="08">08</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==9) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="09">09</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==10) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="10">10</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==11) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="11">11</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==12) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="12">12</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==1) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="01">01</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==2) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="02">02</button>
+						 	<button id="month-btn" class="btn" th:classappend="(${month}==3) ? 'btn-info-selected' : 'btn-outline-info'" type="button" th:name="03">03</button>
 						</div>
 					</div>
 
@@ -109,4 +109,12 @@ p.msg {
 <!--  Paper Kit Initialization snd functons -->
 <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
 
+<script type="text/javascript">
+$(function(){
+	$('button#month-btn').click(function(){
+		var $month = $(this).attr('name');
+		window.location.href = "/schedule?month=" + $month;
+	});
+});
+</script>
 </html>
