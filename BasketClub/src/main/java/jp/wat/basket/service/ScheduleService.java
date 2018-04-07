@@ -24,5 +24,18 @@ public class ScheduleService {
     public void save(Schedule schedule) {
         repository.save(schedule);
     }
+    
+    @Transactional
+	public Integer insert(Schedule schedule) {
+    	repository.save(schedule);
+		return repository.getLastSeq();
+	}
+    
+    @Transactional
+    public void delete(Schedule schedule) {
+        repository.delete(schedule);
+    }
+
+
 
 }

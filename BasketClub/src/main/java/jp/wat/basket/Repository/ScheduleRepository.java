@@ -22,5 +22,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 	*/
 	@Query(value="select s from Schedule s where nendo = :nendo and month = :month")	
 	public List<Schedule> findByNengetsu(Integer nendo, Integer month);
+
+	/**
+	 * 最後にInsertされたAUTO_INCREMENTの値を取得する
+	*/
+	@Query(value="select LAST_INSERT_ID()", nativeQuery = true)
+	public Integer getLastSeq();
 	
 }
