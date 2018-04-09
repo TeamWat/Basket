@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import jp.wat.basket.common.Util;
 import jp.wat.basket.entity.Schedule;
 import jp.wat.basket.form.ScheduleForm;
 import jp.wat.basket.service.ScheduleService;
@@ -43,6 +44,9 @@ public class SchduleEditController {
 	
 	@Autowired
 	ScheduleService scheduleService;
+	
+	@Autowired
+	Util util;
 
 	/********************************************************
 	 * スケジュール編集
@@ -51,9 +55,9 @@ public class SchduleEditController {
 	@RequestMapping(value="/schedule/edit/{month}", method=RequestMethod.GET)
 	public String memberEdit(@PathVariable("month") Integer month, UserInfo userInfo,  Model model){
 				
-		// TODO 年度を設定する仕組みを検討。暫定で2017を設定
-		Integer nendo = Integer.valueOf(2017);
-		
+		// TODO 年度の初期設定はログイン時にセッションに格納するよう変更
+		Integer nendo = util.getNendo(userInfo);
+				
 		//スケジュール一覧取得
 		List<Schedule> scheduleList= scheduleService.getScheduleData(nendo, month);
 		ModelMapper modelMapper = new ModelMapper();

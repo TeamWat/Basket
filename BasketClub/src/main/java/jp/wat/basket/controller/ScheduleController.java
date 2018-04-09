@@ -25,10 +25,10 @@ public class ScheduleController {
 	Util util;
 
 	@RequestMapping(value="/schedule", method=RequestMethod.GET)
-	public String index(Model model, @RequestParam(value = "month", required = false) Integer month){
+	public String index(Model model, UserInfo userInfo, @RequestParam(value = "month", required = false) Integer month){
 		
 		// TODO 年度の初期設定はログイン時にセッションに格納するよう変更
-		Integer nendo = util.getNendo();
+		Integer nendo = util.getNendo(userInfo);
 		if(month == null){
 			// 月のパラメータが設定されていない場合は当月を初期設定
 			LocalDateTime today = LocalDateTime.now();
