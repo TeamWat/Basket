@@ -13,11 +13,20 @@ public class UserInfo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String startViewName;
-    
+    private Integer nendo;
+	
+	public Integer getNendo() {
+		return nendo;
+	}
+	public void setNendo(Integer nendo) {
+		this.nendo = nendo;
+	}
 	public String getStartViewName() {
 		return startViewName;
 	}
 	public void setStartViewName(String startViewName) {
 		this.startViewName = startViewName;
 	}
+
+	
 }
