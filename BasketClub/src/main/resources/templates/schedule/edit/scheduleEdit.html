@@ -90,8 +90,8 @@ p.msg {
 										<td><input type="text" class="form-control asyncUpd" th:id="col8_x" th:name="col8" /></td>
 										
 										<td class="action">
-										<input type="button" class="form-control addlist" th:name="add" th:value="＋"/>
-										<input type="button" class="form-control removelist" th:name="remove" th:value="ー"/>
+										<button type="button" class="form-control addlist" th:id="add_x" th:name="add">＋</button>
+										<button type="button" class="form-control removelist" th:id="remove_x" th:name="remove">ー</button>
 										</td>
 										<input type="hidden" class="form-control" th:name="seq"/>
 										<input type="hidden" class="form-control" th:name="nendo" th:value="${nendo}" />
@@ -158,11 +158,6 @@ $(function(){
 <script type="text/javascript" >
 $(document).ready( function() {
 
-	// TODO 対象行がない場合は初期表示時にtempleteのコピーをおこなう
-	
-	// TODO レコードが1行の場合は削除ボタンを押下不可とする
-	
-
 	// 行を追加する	
 	$('.addlist').on("click", function () {
 		var t = $(this).parent().parent();
@@ -175,10 +170,11 @@ $(document).ready( function() {
 		t.next("tr").attr('id', 'row' + $row_cnt);
 		
 		// form のidを設定
-		$('#row' + $row_cnt + ' > form').attr('id',  'form'+ $row_cnt);
+		$('#row' + $row_cnt + ' > form').attr('id', 'form'+ $row_cnt);
 		
-		// 子要素のpにidを設定
-		$('#row' + $row_cnt + ' > td > p').attr('id',  'dayOfWeek' +'_'+ $row_cnt);
+		// 子要素のp、button にidを設定
+		$('#row' + $row_cnt + ' > td > p').attr('id', 'dayOfWeek' +'_'+ $row_cnt);
+		$('#row' + $row_cnt + ' > td > button').attr('id', $row_cnt);
 		
 		// 子要素のinputにid、form-IDを設定（繰り返し）
 		$('#row' + $row_cnt + ' > td > input').each(function() {
@@ -198,8 +194,8 @@ $(document).ready( function() {
 			$(this).attr('form', 'form'+ $row_cnt);
 		});
 		
-		// TODO対象行が2行以上となった場合は全行の行削除ボタンを押下できるようにする
-		
+		// 行が2行以上となった場合は全行の行削除ボタンを押下できるようにする
+		$('.removelist').prop("disabled", false);
 	});
 
 	
@@ -226,7 +222,10 @@ $(document).ready( function() {
 		$(this).parent().parent().remove();
 		
 		// TODO 残りが1行の場合は行削除ボタンを押下不可とする
-
+		var $row_cnt = $("table tbody").children().length - 1;
+		if ($row_cnt == 1){
+			$('.removelist').prop("disabled", true);
+		}
 	});
 	
  	// 行を一つ上に移動させる
@@ -251,8 +250,6 @@ $(document).ready( function() {
 		// idのアンダーバーの後ろが formNo
 		var $index = $(this).attr('id').lastIndexOf("_");
 		var $formNo = $(this).attr('id').slice($index+1)
-		
-		alert($formNo);
 		
 		// 曜日計算start
 		var $nendo = $('#seq_' + $formNo).siblings('input[name="nendo"]').attr('value');
@@ -283,7 +280,16 @@ $(document).ready( function() {
 			//alert("失敗");
 		}); 
 	}); 
-
+ 	
+	// 対象行がない場合は初期表示時にtempleteのコピーをおこなう
+	var $row_cnt = $("table tbody").children().length - 1;
+	
+	if ($row_cnt == 0){
+		$('#templete > td > button.addlist').click();
+		
+		// レコードが1行の場合は削除ボタンを押下不可とする
+		$('.removelist').prop("disabled", true);
+	}
 });
 //JSデバッグ用設定
 //# sourceURL=scheduleUpd.js
