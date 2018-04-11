@@ -89,6 +89,14 @@ td.vertical-min {
   width: 40px;
 }
 
+.wid43 {
+  width: 43px;
+}
+
+.wid5 {
+  width: 50px;
+}
+
 .mgin-pd-01 {
   margin: 5px 5px;
   padding: 5px 5px;
@@ -119,6 +127,12 @@ td.vertical-min {
   opacity: 1;
   transition: all 0.5s linear; 
   visibility: visible;
+}
+
+.table th.vh-center, .table td.vh-center {
+    text-align: center;
+    margin: 0;
+    padding: 21px 0px 0px 0px;
 }
 
 tr.tr-hover:hover	{

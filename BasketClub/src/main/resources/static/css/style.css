@@ -16,3 +16,14 @@
   color: rgba(255, 255, 255, 0.8);
   border-color: #51bcda;
 }
+
+td.action {
+  display: flex;
+}
+.addlist, .removelist {
+  display: inline-block;
+}
+
+tr#templete {
+  display: none;
+}
