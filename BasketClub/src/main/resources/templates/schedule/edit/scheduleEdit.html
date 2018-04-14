@@ -157,7 +157,7 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript" >
+<script type="text/javascript">
 
 var $beforeValue = '';　// validationエラー時に戻す用の値を保持
 $(document).ready( function() {
@@ -231,7 +231,7 @@ $(document).ready( function() {
 		// 画面の表示行を削除する
 		$(this).parent().parent().remove();
 		
-		// TODO 残りが1行の場合は行削除ボタンを押下不可とする
+		// 残りが1行の場合は行削除ボタンを押下不可とする
 		var $row_cnt = $("table tbody").children().length - 1;
 		if ($row_cnt == 1){
 			$('.removelist').prop("disabled", true);
