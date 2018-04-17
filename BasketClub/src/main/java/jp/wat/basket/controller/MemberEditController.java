@@ -198,7 +198,7 @@ public class MemberEditController {
 	
 	// 削除完了画面
 	@RequestMapping(value={"/member/delete/transactfinish"}, method=RequestMethod.POST, params="submit")
-	public String deleteComplete(@Validated MemberForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model){
+	public String deleteComplete(@Validated MemberForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model, RedirectAttributes redirectAttributes){
 
 		ModelMapper modelMapper = new ModelMapper();
 		Member member = modelMapper.map(form, Member.class);
@@ -216,6 +216,7 @@ public class MemberEditController {
 		String nextViewName = userInfo.getStartViewName();
 		sessionStatus.setComplete();
 		
+		redirectAttributes.addFlashAttribute("message","削除が完了しました");
 		return "redirect:/member";
 	}
 	

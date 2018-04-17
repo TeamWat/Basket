@@ -1,9 +1,14 @@
 $(function(){
-    $("#flash-message").fadeIn(1000).delay(5000).fadeOut(2000).queue(function(next) {
-      $(this).hide();
-      next();
-    });
+//    $("#flash-message").fadeIn(1000).delay(5000).fadeOut(2000).queue(function(next) {
+//      $(this).hide();
+//      next();
+//    });
 });
+
+function flashMessage($message, $result){
+	swal("", $message, $result);
+}
+
 
 /*
 $(function(){

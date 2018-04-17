@@ -7,11 +7,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" href="webjars/jquery-ui/1.12.1/jquery-ui.min.css" />
-
 <link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
 <link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+<link href="/sweetalert/css/sweetalert2.css" rel="stylesheet" type="text/css">
 <link href="/css/custom.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
 
 <!--     Fonts and icons     -->
 <link
@@ -35,7 +36,7 @@ p.msg {
 		<div class="main">
 			<div class="section section-buttons">
 				<div class="container">
-					<div class="alert alert-success" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}">フラッシュメッセージ</div>
+					<div class="" role="alert" th:id="flash-message"  th:text="${message}"></div>
 					<div class="tim-title">
 						<h2>Basic Elements</h2>
 					</div>
@@ -88,9 +89,10 @@ p.msg {
 <script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 <script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
+<script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript" ></script>
 <script src="/js/member.js" type="text/javascript" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
 
 <!-- Plugin for Switches -->
 <script src="/bootstrap/assets/js/bootstrap-switch.min.js"></script>
@@ -100,5 +102,17 @@ p.msg {
 
 <!--  Paper Kit Initialization snd functons -->
 <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+	
+	$message = $('#flash-message').text();
+	if ($message != null && $message != "") {
+		flashMessage($message, "success");	
+	}
+});
+
+</script>
 
 </html>

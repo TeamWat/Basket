@@ -28,3 +28,7 @@ td.action {
 tr#templete {
 	display: none;
 }
+
+#flash-message {
+	display: none;
+}
