@@ -19,7 +19,7 @@ public class MemberController {
 	@RequestMapping("/member")
 	public String index(Model model){
 	
-		List<Member> memberList = memberService.getInformation();
+		List<Member> memberList = memberService.getAllMember();
 		
 		model.addAttribute("memberList", memberList);
 		return "member";

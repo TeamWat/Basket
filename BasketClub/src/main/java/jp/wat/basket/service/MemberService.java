@@ -23,9 +23,9 @@ public class MemberService {
 	@Autowired
 	private MemberRepository repository;
 	
-	public List<Member> getInformation(){
+	public List<Member> getAllMember(){
 		// 有効なメンバー情報を取得する
-		return repository.findAllData();
+		return repository.findAllByOrderByIdAsc();
 	}
 	
 	public Member findById(Integer memberId){
