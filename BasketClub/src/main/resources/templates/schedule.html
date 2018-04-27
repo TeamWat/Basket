@@ -76,15 +76,15 @@ p.msg {
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="schedule: ${scheduleList}">
-									<td th:text="|${schedule.col1} ( ${schedule.col2} )|"></td>
-									<td th:text="${schedule.col3}"></td>
-									<td th:text="${schedule.col4}"></td>
-									<td th:text="${schedule.col5}"></td>
-									<td th:text="${schedule.col6}"></td>
-									<td th:text="${schedule.col7}"></td>
-									<td th:text="${schedule.col8}"></td>
-									<td th:text="${schedule.col9}"></td>
+								<tr th:each="scheduleDetail: ${scheduleDetailList}">
+									<td th:text="|${scheduleDetail.day} ( ${scheduleDetail.week} )|"></td>
+									<td th:text="${scheduleDetail.timeFrame}"></td>
+									<td th:text="${scheduleDetail.place}"></td>
+									<td th:text="${scheduleDetail.program}"></td>
+									<td th:text="${scheduleDetail.tantouParent}"></td>
+									<td th:text="${scheduleDetail.tantouSupporter}"></td>
+									<td th:text="${scheduleDetail.tantouYakuin}"></td>
+									<td th:text="${scheduleDetail.bikou}"></td>
 								</tr>
 							</tbody>
 						</table>

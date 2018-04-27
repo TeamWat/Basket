@@ -78,17 +78,17 @@ p.msg {
 							<tbody>
 							    <tr id="templete">
 									<form method="post" th:action="@{/schedule/edit/complete}" th:id="form">
-										<td><input type="text" class="form-control wid43 asyncUpd" th:id="col1_x" th:name="col1" /></td>
+										<td><input type="text" class="form-control wid43 asyncUpd" th:id="day_x" th:name="day" /></td>
 										<td class="vh-center">
 											<p class="vh-center" id="dayOfWeek"></p>
-											<input type="hidden" class="form-control asyncUpd" th:id="col2_x" th:name="col2" />
+											<input type="hidden" class="form-control asyncUpd" th:id="week_x" th:name="week" />
 										</td>
-										<td><input type="text"  class="form-control asyncUpd" th:id="col3_x" th:name="col3" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="col4_x" th:name="col4" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="col5_x" th:name="col5" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="col6_x" th:name="col6" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="col7_x" th:name="col7" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="col8_x" th:name="col8" /></td>
+										<td><input type="text"  class="form-control asyncUpd" th:id="timeFrame_x" th:name="timeFrame" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="place_x" th:name="place" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="program_x" th:name="program" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="tantouParent_x" th:name="tantouParent" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="tantouSupporter_x" th:name="tantouSupporter" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="tantouYakuin_x" th:name="tantouYakuin" /></td>
 										
 										<td class="action">
 										<button type="button" class="form-control addlist" th:id="add_x" th:name="add">＋</button>
@@ -97,31 +97,31 @@ p.msg {
 										<input type="hidden" class="form-control" th:name="seq"/>
 										<input type="hidden" class="form-control" th:name="nendo" th:value="${nendo}" />
 										<input type="hidden" class="form-control" th:name="month" th:value="${month}" />
-										<td><input type="submit" class="none" th:name="submit_" /></td>
+										<td><input type="button" class="none" th:name="submit_" /></td>
 									</form>
 								</tr>
-								<tr th:each="schedule, stat: ${scheduleFormList}">
+								<tr th:each="scheduleDetail, stat: ${scheduleDetailFormList}">
 									<form method="post" th:action="@{/schedule/edit/complete}" th:id="|form${stat.index}|">
-										<td><input type="text" class="form-control wid43 asyncUpd" th:id="|col1_${stat.index}|" th:name="col1" th:value="*{schedule.col1}" /></td>
+										<td><input type="text" class="form-control wid43 asyncUpd" th:id="|day_${stat.index}|" th:name="day" th:value="*{scheduleDetail.day}" /></td>
 										<td class="vh-center">
-											<p class="vh-center" th:id="|dayOfWeek_${stat.index}|" th:text="|(${schedule.col2})|"></p>
-											<input type="hidden" class="form-control asyncUpd" th:id="|col2_${stat.index}|" th:name="col2" />
+											<p class="vh-center" th:id="|dayOfWeek_${stat.index}|" th:text="|(${scheduleDetail.week})|"></p>
+											<input type="hidden" class="form-control asyncUpd" th:id="|week_${stat.index}|" th:name="week" />
 										</td>
-										<td><input type="text"  class="form-control asyncUpd" th:id="|col3_${stat.index}|" th:name="col3" th:value="*{schedule.col3}" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="|col4_${stat.index}|" th:name="col4" th:value="*{schedule.col4}" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="|col5_${stat.index}|" th:name="col5" th:value="*{schedule.col5}" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="|col6_${stat.index}|" th:name="col6" th:value="*{schedule.col6}" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="|col7_${stat.index}|" th:name="col7" th:value="*{schedule.col7}" /></td>
-										<td><input type="text" class="form-control asyncUpd" th:id="|col8_${stat.index}|" th:name="col8" th:value="*{schedule.col8}" /></td>
+										<td><input type="text"  class="form-control asyncUpd" th:id="|timeFrame_${stat.index}|" th:name="timeFrame" th:value="*{scheduleDetail.timeFrame}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|place_${stat.index}|" th:name="place" th:value="*{scheduleDetail.place}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|program_${stat.index}|" th:name="program" th:value="*{scheduleDetail.program}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|tantouParent_${stat.index}|" th:name="tantouParent" th:value="*{scheduleDetail.tantouParent}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|tantouSupporter_${stat.index}|" th:name="tantouSupporter" th:value="*{scheduleDetail.tantouSupporter}" /></td>
+										<td><input type="text" class="form-control asyncUpd" th:id="|tantouYakuin_${stat.index}|" th:name="tantouYakuin" th:value="*{scheduleDetail.tantouYakuin}" /></td>
 										
 										<td class="action">
 										<input type="button" class="form-control addlist" th:id="|${stat.index}|" th:name="add" th:value="＋"/>
 										<input type="button" class="form-control removelist" th:id="|${stat.index}|" th:name="remove" th:value="ー"/>
 										</td>
-										<input type="hidden" class="form-control" th:name="seq" th:id="|seq_${stat.index}|" th:value="*{schedule.seq}" />
+										<input type="hidden" class="form-control" th:name="seq" th:id="|seq_${stat.index}|" th:value="*{scheduleDetail.seq}" />
 										<input type="hidden" class="form-control" th:name="nendo" th:value="${nendo}" />
 										<input type="hidden" class="form-control" th:name="month" th:value="${month}" />
-										<td><input type="submit" class="none" th:name="|submit_${stat.index}|" /></td>
+										<td><input type="button" class="none" th:name="|submit_${stat.index}|" /></td>
 									</form>
 								</tr>
 							</tbody>
@@ -261,13 +261,13 @@ $(document).ready( function() {
 		var $index = $(this).attr('id').lastIndexOf("_");
 		var $formNo = $(this).attr('id').slice($index+1)
 		
-		if($(this).attr('name')=='col1'){
+		if($(this).attr('name')=='day'){
 			
 			// 曜日計算・設定
 			var $nendo = $('#seq_' + $formNo).siblings('input[name="nendo"]').attr('value');
 			var $month = $('#seq_' + $formNo).siblings('input[name="month"]').attr('value');
 			var $year = $month > 3 ? $nendo : Number($nendo) +1;
-			var $day = $('#col1_' + $formNo).val();
+			var $day = $('#day_' + $formNo).val();
 			var $ymd = $nendo +'/'+ $month +'/'+ $day;
 			var $dayOfWeek = getDayOfWeek($ymd);
 			
@@ -277,8 +277,8 @@ $(document).ready( function() {
 					throw new Error("無効な日付です");
 				}
 				
-				// 有効な日付が入力されていたらcol2の更新をおこなう
-				$('#col2_' + $formNo).attr("value", $dayOfWeek);
+				// 有効な日付が入力されていたらweekの更新をおこなう
+				$('#week_' + $formNo).attr("value", $dayOfWeek);
 				$('#dayOfWeek_' + $formNo).text("(" + $dayOfWeek + ")");
 				
 			}catch(e){
