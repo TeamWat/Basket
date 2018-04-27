@@ -6,7 +6,7 @@ import java.util.List;
 
 import jp.wat.basket.service.ScheduleService;
 import jp.wat.basket.common.Util;
-import jp.wat.basket.entity.Schedule;
+import jp.wat.basket.entity.ScheduleDetail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,9 +36,9 @@ public class ScheduleController {
 			month = Integer.valueOf(df1.format(today));
 		}
 
-		List<Schedule> scheduleList= scheduleService.getScheduleData(nendo, month);
+		List<ScheduleDetail> scheduleDetailList= scheduleService.getScheduleData(nendo, month);
 
-		model.addAttribute("scheduleList", scheduleList);
+		model.addAttribute("scheduleDetailList", scheduleDetailList);
 		model.addAttribute("month", month);
 		model.addAttribute("msg", "引数が渡っていることを確認");
 		return "schedule";
