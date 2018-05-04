@@ -1,31 +1,42 @@
 package jp.wat.basket.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import jp.wat.basket.entity.Information;
 import jp.wat.basket.form.InformationForm;
 import jp.wat.basket.form.TopForm;
+import jp.wat.basket.framework.security.AccountUserDetails;
 import jp.wat.basket.service.InformationService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class TopController {
 	
 	@Autowired
 	InformationService informationService;
 	
-	@RequestMapping("/")
-	public ModelAndView index(ModelAndView mav){
-		mav.setViewName("main");
+	@RequestMapping("/top")
+	public String index(Model model){
 	
+		System.out.println("トップ画面表示");
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userId = null;
+		if (authentication.getPrincipal() instanceof AccountUserDetails){
+			AccountUserDetails userDetails = AccountUserDetails.class.cast(authentication.getPrincipal());
+			userId = userDetails.getUsername();
+			String us = ((AccountUserDetails)authentication.getPrincipal()).getUsername();
+			System.out.println("username:"+us);
+		}
+		
 		List<Information> informationList = informationService.getInformation();
 
 			// TODO 後で削除（debug start)
@@ -46,10 +57,11 @@ public class TopController {
 		
 		topForm.setInformationList(informations);
 		
-		mav.addObject("topForm", topForm);
-		mav.addObject("informationList", informationList);
-		mav.addObject("msg", "引数が渡っていることを確認");
-		return mav;
+		model.addAttribute("topForm", topForm);
+		model.addAttribute("informationList", informationList);
+		model.addAttribute("msg", "引数が渡っていることを確認");
+		model.addAttribute("userId", userId);
+		return "main";
 		
 	}  
 

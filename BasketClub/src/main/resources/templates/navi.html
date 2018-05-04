@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
@@ -12,7 +13,7 @@
                     <span class="navbar-toggler-bar"></span>
                     <span class="navbar-toggler-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">Big & Yabedan</a>
+                <a class="navbar-brand" href="/top">Big ＆ Yabedan</a>
             </div>
             <div class="collapse navbar-collapse" id="navbarToggler">
                 <ul class="navbar-nav ml-auto">
@@ -22,7 +23,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="/">
+                        <a class="nav-link" rel="tooltip" title="Like us on Facebook" data-placement="bottom" href="/top">
                             <p>対戦成績</p>
                         </a>
                     </li>
@@ -32,13 +33,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" rel="tooltip" title="Star on GitHub" data-placement="bottom" href="/" >
+                        <a class="nav-link" rel="tooltip" title="Star on GitHub" data-placement="bottom" href="/top" >
                             <p>設定</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-link btn-info" rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="/member">
-                            アカウント設定
+                        <span class="btn btn-link btn-info" th:text="|${userName} 様|">ユーザー名</span>
+					</li>
+                    <li class="nav-item">
+                        <a class="btn btn-link btn-info" rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="/logout">
+                            ログアウト
                         </a>
 					</li>
                 </ul>
