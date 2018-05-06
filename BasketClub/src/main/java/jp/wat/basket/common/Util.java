@@ -9,7 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Util {
-
+	
+	/*
+	 * 年度取得
+	 */
 	public Integer getNendo(UserInfo userInfo){
 		
 		if (userInfo.getNendo() != null){

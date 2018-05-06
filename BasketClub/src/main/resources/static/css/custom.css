@@ -148,3 +148,9 @@ tr.tr-hover:hover	{
 	background-color: #fbdee1;
 }
 
+.navbar-translate .navbar-brand {
+    padding: 5px 15px;
+}
+.navbar .navbar-nav .nav-item .nav-link {
+    margin: 5px 0px;
+}

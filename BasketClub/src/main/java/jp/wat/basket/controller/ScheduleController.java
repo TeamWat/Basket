@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.ScheduleService;
 import jp.wat.basket.common.Util;
+import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.ScheduleDetail;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Controller
 public class ScheduleController {
@@ -23,6 +27,9 @@ public class ScheduleController {
 	
 	@Autowired
 	Util util;
+	
+	@Autowired
+	CommonService commonService;
 
 	@RequestMapping(value="/schedule", method=RequestMethod.GET)
 	public String index(Model model, UserInfo userInfo, @RequestParam(value = "month", required = false) Integer month){
@@ -35,9 +42,13 @@ public class ScheduleController {
 			DateTimeFormatter df1 = DateTimeFormatter.ofPattern("MM");
 			month = Integer.valueOf(df1.format(today));
 		}
-
-		List<ScheduleDetail> scheduleDetailList= scheduleService.getScheduleData(nendo, month);
-
+	
+		List<ScheduleDetail> scheduleDetailList= scheduleService.getScheduleData(nendo, month);		
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("scheduleDetailList", scheduleDetailList);
 		model.addAttribute("month", month);
 		model.addAttribute("msg", "引数が渡っていることを確認");

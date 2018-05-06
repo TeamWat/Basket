@@ -9,6 +9,17 @@ function flashMessage($message, $result){
 	swal("", $message, $result);
 }
 
+ 
+$(function(){
+    $('div.nav-account').mouseenter(function(){
+        $('.navi-dropdown:not(:animated)').slideDown(100);
+      });
+
+    $('div.nav-account').mouseleave(function(){
+        $('.navi-dropdown').slideUp(100);
+      });
+})
+
 
 /*
 $(function(){

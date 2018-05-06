@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 	
-	private static final String Integer = null;
 	@Autowired
 	private MemberRepository repository;
 	
