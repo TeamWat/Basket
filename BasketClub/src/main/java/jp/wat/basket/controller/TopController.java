@@ -30,17 +30,6 @@ public class TopController {
 	
 	@RequestMapping("/top")
 	public String index(Model model){
-	
-		System.out.println("トップ画面表示");
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String userId = null;
-		if (authentication.getPrincipal() instanceof AccountUserDetails){
-			AccountUserDetails userDetails = AccountUserDetails.class.cast(authentication.getPrincipal());
-			userId = userDetails.getUsername();
-			String us = ((AccountUserDetails)authentication.getPrincipal()).getUsername();
-			System.out.println("username:"+us);
-		}
 		
 		List<Information> informationList = informationService.getInformation();
 
@@ -70,7 +59,6 @@ public class TopController {
 		model.addAttribute("topForm", topForm);
 		model.addAttribute("bgColorNone", "bgcolor-none"); //background-color:none
 		model.addAttribute("informationList", informationList);
-		model.addAttribute("userId", userId);
 		return "main";
 		
 	}  
