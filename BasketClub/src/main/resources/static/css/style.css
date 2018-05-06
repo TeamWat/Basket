@@ -4,6 +4,10 @@
 	background-color: white;
 }
 
+.navbar .bgcolor-none {
+	background-color: transparent;;
+}
+
 .btn-info-selected {
 	background-color: #51bcda;
 	color: rgba(255, 255, 255, 0.8);
@@ -31,4 +35,63 @@ tr#templete {
 
 #flash-message {
 	display: none;
+}
+
+.account-icon {
+    padding: 1px 5px 5px 20px;
+    color: #6f6f6f;
+    margin: 15px 0 ;
+}
+
+.account-icon:hover {
+    padding: 1px 5px 5px 20px;
+    color: #403D39;
+    margin: 15px 0 ;
+}
+
+.navi-dropdown {
+    display: none;
+    position:absolute;
+
+    width: 180px;
+    padding: 10px;
+    background-color: white;
+    
+    border: solid 1px #c1c1c1;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0 0 6px 0 rgba(0,0,0,.20);
+    text-align: left;
+}
+
+.account ul {
+    margin: 0;
+    padding: 0 0 0 10px;
+}
+
+.account ul li {
+    display:inline-block;
+    margin: 0;
+    padding: 0 0 0 3px;
+    width: 100%;
+    font-size: 12px;
+    list-style: none;
+    line-height: 35px;
+    color: #6f6f6f;
+}
+
+.account ul li[class*="link"]:hover {
+    color: #403D39;
+    text-shadow: 10px;
+    background-color: #f8f8f8;
+}
+
+.account ul li a {
+    display:block;
+    width:100%;
+}
+
+.btm-border {
+    padding-bottom: 10px;
+    border-bottom: solid 0.5px #c1c1c1;
 }

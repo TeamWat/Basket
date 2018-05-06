@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.wat.basket.entity.Information;
+import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.form.InformationForm;
 import jp.wat.basket.form.TopForm;
 import jp.wat.basket.framework.security.AccountUserDetails;
+import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.InformationService;
 
 import org.modelmapper.ModelMapper;
@@ -22,6 +24,9 @@ public class TopController {
 	
 	@Autowired
 	InformationService informationService;
+	
+	@Autowired
+	CommonService commonService;
 	
 	@RequestMapping("/top")
 	public String index(Model model){
@@ -57,9 +62,14 @@ public class TopController {
 		
 		topForm.setInformationList(informations);
 		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
+		
 		model.addAttribute("topForm", topForm);
+		model.addAttribute("bgColorNone", "bgcolor-none"); //background-color:none
 		model.addAttribute("informationList", informationList);
-		model.addAttribute("msg", "引数が渡っていることを確認");
 		model.addAttribute("userId", userId);
 		return "main";
 		
