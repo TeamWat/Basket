@@ -29,9 +29,9 @@ public class ScheduleDetail {
 	private String tantouYakuin;
 	private String bikou;
 	private byte gameFlg;
-	private Integer registUser;
+	private String registUser;
 	private Timestamp registTime;
-	private Integer updateUser;
+	private String updateUser;
 	private Timestamp updateTime;
 	
 	// JPA requirement
@@ -141,11 +141,11 @@ public class ScheduleDetail {
 		this.gameFlg = gameFlg;
 	}
 
-	public Integer getRegistUser() {
+	public String getRegistUser() {
 		return registUser;
 	}
 
-	public void setRegistUser(Integer registUser) {
+	public void setRegistUser(String registUser) {
 		this.registUser = registUser;
 	}
 
@@ -157,11 +157,11 @@ public class ScheduleDetail {
 		this.registTime = registTime;
 	}
 
-	public Integer getUpdateUser() {
+	public String getUpdateUser() {
 		return updateUser;
 	}
 
-	public void setUpdateUser(Integer updateUser) {
+	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
 

@@ -2,8 +2,10 @@ package jp.wat.basket.controller;
 
 import java.sql.Timestamp;
 
+import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.Member;
 import jp.wat.basket.form.MemberForm;
+import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.MemberService;
 
 import org.modelmapper.ModelMapper;
@@ -20,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,9 @@ public class MemberEditController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	CommonService commonService;
 
 	/********************************************************
 	 * メンバー登録
@@ -97,10 +101,11 @@ public class MemberEditController {
 		Member member = modelMapper.map(form, Member.class);
 				
 		// 共通項目の設定
+		LoginUser loginUser = commonService.getLoginUser();
 		member.setDeleteFlg(0);
-		member.setRegistUser(1); //TODO ログインユーザーに変更
+		member.setRegistUser(loginUser.getUserId());
 		member.setRegistTime(new Timestamp(System.currentTimeMillis()));
-		member.setUpdateUser(1); //TODO ログインユーザーに変更
+		member.setUpdateUser(loginUser.getUserId());
 		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		
 		logger.info("[member登録／member更新]");
@@ -204,10 +209,11 @@ public class MemberEditController {
 		Member member = modelMapper.map(form, Member.class);
 		
 		// 共通項目の設定
+		LoginUser loginUser = commonService.getLoginUser();
 		member.setDeleteFlg(0);
-		member.setRegistUser(1); //TODO ログインユーザーに変更
+		member.setRegistUser(loginUser.getUserId());
 		member.setRegistTime(new Timestamp(System.currentTimeMillis()));
-		member.setUpdateUser(1); //TODO ログインユーザーに変更
+		member.setUpdateUser(loginUser.getUserId());
 		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		
 		// DB更新処理 

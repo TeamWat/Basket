@@ -22,9 +22,9 @@ public class Member {
 	private String memberNameKn;
 	private Integer no;
 	private Integer grade;
-	private Integer registUser;
+	private String registUser;
 	private Timestamp registTime;
-	private Integer updateUser;
+	private String updateUser;
 	private Timestamp updateTime;
 	private Integer deleteFlg;
 	
@@ -71,11 +71,11 @@ public class Member {
 		this.grade = grade;
 	}
 
-	public Integer getRegistUser() {
+	public String getRegistUser() {
 		return registUser;
 	}
 
-	public void setRegistUser(Integer registUser) {
+	public void setRegistUser(String registUser) {
 		this.registUser = registUser;
 	}
 
@@ -87,11 +87,11 @@ public class Member {
 		this.registTime = registTime;
 	}
 
-	public Integer getUpdateUser() {
+	public String getUpdateUser() {
 		return updateUser;
 	}
 
-	public void setUpdateUser(Integer updateUser) {
+	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
 
