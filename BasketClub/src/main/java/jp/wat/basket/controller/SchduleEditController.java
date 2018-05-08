@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.wat.basket.common.Util;
+import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.ScheduleDetail;
 import jp.wat.basket.form.ScheduleDetailForm;
+import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.ScheduleService;
 
 import org.modelmapper.ModelMapper;
@@ -42,6 +44,9 @@ public class SchduleEditController {
 	
 	@Autowired
 	ScheduleService scheduleService;
+	
+	@Autowired
+	CommonService commonService;
 	
 	@Autowired
 	Util util;
@@ -87,9 +92,10 @@ public class SchduleEditController {
 			ScheduleDetail scheduleDetail = modelMapper.map(scheduleDetailForm, ScheduleDetail.class);
 	
 			// 共通項目の設定
-			scheduleDetail.setRegistUser(1); //TODO ログインユーザーに変更
+			LoginUser loginUser = commonService.getLoginUser();
+			scheduleDetail.setRegistUser(loginUser.getUserId());
 			scheduleDetail.setRegistTime(new Timestamp(System.currentTimeMillis()));
-			scheduleDetail.setUpdateUser(1); //TODO ログインユーザーに変更
+			scheduleDetail.setUpdateUser(loginUser.getUserId());
 			scheduleDetail.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 			
 			// DB更新処理
