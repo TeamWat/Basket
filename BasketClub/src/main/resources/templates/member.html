@@ -58,6 +58,7 @@ p.msg {
 						<table class="table table-hover ">
 							<thead>
 								<tr>
+									<th>Team</th>
 									<th>No</th>
 									<th>名前</th>
 									<th>学年</th>
@@ -66,6 +67,7 @@ p.msg {
 							</thead>
 							<tbody>
 								<tr th:each="member: ${memberList}"  data-href="member/regist" class="tr-hover">
+									<td th:text="${member.teamName}" class="vertical-min"></td>
 									<td th:text="${member.no}" class="vertical-min"></td>
 									<td th:text="${member.memberName}" class="vertical-min"></td>
 									<td th:text="${member.grade}" class="vertical-min"></td>

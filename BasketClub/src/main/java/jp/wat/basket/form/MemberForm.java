@@ -16,9 +16,14 @@ public class MemberForm {
 	private Integer memberId;
 	
 	@NotNull(message = "入力してください")
-	@Min(value=4, message = "背番号は2桁までの数字で入力してください")
-	@Max(value=99, message = "背番号は2桁までの数字で入力してください")
-	private Integer no;
+	private String no;
+	
+	private Integer nendo;
+	
+	@NotBlank(message = "選択してください")
+	private String teamKubun;
+	
+	private String teamName;
 	
 	@NotBlank(message = "入力してください")
 	private String memberName;
@@ -39,10 +44,28 @@ public class MemberForm {
 	public void setMemberId(Integer memberId) {
 		this.memberId = memberId;
 	}
-	public Integer getNo() {
+	public Integer getNendo() {
+		return nendo;
+	}
+	public void setNendo(Integer nendo) {
+		this.nendo = nendo;
+	}
+	public String getTeamKubun() {
+		return teamKubun;
+	}
+	public String getTeamName() {
+		return teamName;
+	}
+	public void setTeamName(String teamName) {
+		this.teamName = teamName;
+	}
+	public void setTeamKubun(String teamKubun) {
+		this.teamKubun = teamKubun;
+	}
+	public String getNo() {
 		return no;
 	}
-	public void setNo(Integer no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 	public String getMemberName() {

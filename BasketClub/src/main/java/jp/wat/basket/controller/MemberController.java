@@ -4,6 +4,7 @@ import java.util.List;
 
 import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.Member;
+import jp.wat.basket.model.MemberViewModel;
 import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.MemberService;
 
@@ -24,7 +25,7 @@ public class MemberController {
 	@RequestMapping("/member")
 	public String index(Model model){
 	
-		List<Member> memberList = memberService.getAllMember();
+		List<MemberViewModel> memberList = memberService.getAllMember();
 		
 		// ユーザー情報取得
 		LoginUser loginUser = commonService.getLoginUser();
