@@ -7,6 +7,7 @@ public class MemberViewModel extends Member{
 	// memberクラスでは保持していないチーム名などはこちらのクラスで保持する
 	
 	private String TeamName;
+	private String DisplayNo;
 
 	public String getTeamName() {
 		return TeamName;
@@ -14,6 +15,14 @@ public class MemberViewModel extends Member{
 
 	public void setTeamName(String teamName) {
 		TeamName = teamName;
+	}
+
+	public String getDisplayNo() {
+		return DisplayNo;
+	}
+
+	public void setDisplayNo(String displayNo) {
+		DisplayNo = displayNo;
 	}
 	
 	

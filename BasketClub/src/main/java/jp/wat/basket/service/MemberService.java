@@ -12,6 +12,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import jp.wat.basket.Repository.MemberRepository;
+import jp.wat.basket.common.Enum.EnumSebango;
 import jp.wat.basket.common.Enum.EnumTeamKubun;
 import jp.wat.basket.entity.Member;
 import jp.wat.basket.entity.ScheduleDetail;
@@ -35,6 +36,7 @@ public class MemberService {
 		ModelMapper modelMapper = new ModelMapper();
 		MemberViewModel memberViewModel;
 		EnumTeamKubun enumTeamKubun;
+		EnumSebango enumSebango;
 		String teamName ="";
 
 		for (Member member : memberList){
@@ -42,7 +44,11 @@ public class MemberService {
 			
 			// チーム名を設定
 			enumTeamKubun = EnumTeamKubun.decode(memberViewModel.getTeamKubun());
-			memberViewModel.setTeamName(enumTeamKubun.getSName());
+			memberViewModel.setTeamName(enumTeamKubun.getName());
+			
+			// 背番号（表示用）を設定
+			enumSebango = EnumSebango.decode(memberViewModel.getNo());
+			memberViewModel.setDisplayNo(enumSebango.getName());
 			
 			// リストに追加
 			memberViewModelList.add(memberViewModel);

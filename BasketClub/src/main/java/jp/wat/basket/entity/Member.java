@@ -21,7 +21,7 @@ public class Member {
 	private Integer teamKubun;
 	private String memberName;
 	private String memberNameKn;
-	private String no;
+	private Integer no;
 	private Integer grade;
 	private Integer registUser;
 	private Timestamp registTime;
@@ -72,11 +72,11 @@ public class Member {
 		this.memberNameKn = memberNameKn;
 	}
 
-	public String getNo() {
+	public Integer getNo() {
 		return no;
 	}
 
-	public void setNo(String no) {
+	public void setNo(Integer no) {
 		this.no = no;
 	}
 

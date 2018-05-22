@@ -16,12 +16,12 @@ public class MemberForm {
 	private Integer memberId;
 	
 	@NotNull(message = "入力してください")
-	private String no;
+	private Integer no;
 	
 	private Integer nendo;
 	
-	@NotBlank(message = "選択してください")
-	private String teamKubun;
+	@NotNull(message = "選択してください")
+	private Integer teamKubun;
 	
 	private String teamName;
 	
@@ -50,8 +50,11 @@ public class MemberForm {
 	public void setNendo(Integer nendo) {
 		this.nendo = nendo;
 	}
-	public String getTeamKubun() {
+	public Integer getTeamKubun() {
 		return teamKubun;
+	}
+	public void setTeamKubun(Integer teamKubun) {
+		this.teamKubun = teamKubun;
 	}
 	public String getTeamName() {
 		return teamName;
@@ -59,13 +62,10 @@ public class MemberForm {
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
-	public void setTeamKubun(String teamKubun) {
-		this.teamKubun = teamKubun;
-	}
-	public String getNo() {
+	public Integer getNo() {
 		return no;
 	}
-	public void setNo(String no) {
+	public void setNo(Integer no) {
 		this.no = no;
 	}
 	public String getMemberName() {

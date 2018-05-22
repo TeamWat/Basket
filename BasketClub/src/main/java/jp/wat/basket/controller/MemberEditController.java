@@ -2,8 +2,13 @@ package jp.wat.basket.controller;
 
 import java.sql.Timestamp;
 
+import jp.wat.basket.common.Enum.EnumGrade;
+import jp.wat.basket.common.Enum.EnumSebango;
+import jp.wat.basket.common.Enum.EnumTeamKubun;
+import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.Member;
 import jp.wat.basket.form.MemberForm;
+import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.MemberService;
 
 import org.modelmapper.ModelMapper;
@@ -20,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +41,9 @@ public class MemberEditController {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	CommonService commonService;
 
 	/********************************************************
 	 * メンバー登録
@@ -45,8 +52,17 @@ public class MemberEditController {
 	@RequestMapping(value="/member/regist/input", method=RequestMethod.GET)
 	public String registInput(UserInfo userInfo, Model model){
 	
-		// TODO 丸数字はどうしよう？　https://ja.wikipedia.org/wiki/%E4%B8%B8%E6%95%B0%E5%AD%97
 		userInfo.setStartViewName("/member/regist/input");
+		
+		// セレクトボックスのItemを取得（チーム区分、学年、背番号）
+		model.addAttribute("selectTeam", EnumTeamKubun.values());
+		model.addAttribute("selectGrade", EnumGrade.values());
+		model.addAttribute("selectNo", EnumSebango.values());
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", new MemberForm());
 		
 		return "/member/regist/input";
@@ -84,6 +100,14 @@ public class MemberEditController {
 		//TODO 変更時の変更有無チェック
 		//TODO Formに変更有無を追加して、チェック結果を格納
 		
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
+		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
+		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", memberForm);
 		return "/member/regist/confirm";
 	}
@@ -142,6 +166,18 @@ public class MemberEditController {
 		ModelMapper modelMapper = new ModelMapper();
 		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
 
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
+		model.addAttribute("EnumSebango", EnumSebango.decode(befMemberForm.getNo()));
+		
+		// セレクトボックスのItemを取得（チーム区分、学年、背番号）
+		model.addAttribute("selectTeam", EnumTeamKubun.values());
+		model.addAttribute("selectGrade", EnumGrade.values());
+		model.addAttribute("selectNo", EnumSebango.values());
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", befMemberForm);
 		return "/member/edit/editInput";
 	}
@@ -155,19 +191,35 @@ public class MemberEditController {
 	// 変更確認画面　表示
 	@RequestMapping(value = {"/member/edit/confirm"}, method = RequestMethod.POST, params = "confirm")
 	public String editConfirm(
-			@Validated MemberForm form,
+			@Validated MemberForm memberForm,
 			BindingResult result,
 			Model model) {
 					
 		//変更前情報取得
-		Member member = memberService.findById(form.getMemberId());
+		Member member = memberService.findById(memberForm.getMemberId());
 		ModelMapper modelMapper = new ModelMapper();
 		
 		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
 		
 		//TODO バリデーションチェック
+		
+		
+		// 変更前用のEnumを取得（チーム区分、学年、背番号）
+		model.addAttribute("befEnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
+		model.addAttribute("befEnumGrade", EnumGrade.decode(befMemberForm.getGrade()));
+		model.addAttribute("befEnumNo", EnumSebango.decode(befMemberForm.getNo()));
+		
+		// 変更後用のEnumを取得（チーム区分、学年、背番号）
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
+		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
+		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("befMemberF", befMemberForm);
-		model.addAttribute("memberForm", form);
+		model.addAttribute("memberForm", memberForm);
 		
 		return "/member/edit/editConfirm";
 	}
@@ -188,10 +240,19 @@ public class MemberEditController {
 		//登録情報取得
 		Member member = memberService.findById(mid);
 		ModelMapper modelMapper = new ModelMapper();
-		MemberForm form = modelMapper.map(member, MemberForm.class);
+		MemberForm memberForm = modelMapper.map(member, MemberForm.class);
 		
 		//TODO バリデーションチェック
-		model.addAttribute("memberForm", form);
+		
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
+		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
+		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
+		model.addAttribute("memberForm", memberForm);
 		
 		return "/member/delete/deleteConfirm";
 	}
