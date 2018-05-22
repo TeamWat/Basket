@@ -121,10 +121,11 @@ public class MemberEditController {
 		Member member = modelMapper.map(form, Member.class);
 				
 		// 共通項目の設定
+		LoginUser loginUser = commonService.getLoginUser();
 		member.setDeleteFlg(0);
-		member.setRegistUser(1); //TODO ログインユーザーに変更
+		member.setRegistUser(loginUser.getUserId());
 		member.setRegistTime(new Timestamp(System.currentTimeMillis()));
-		member.setUpdateUser(1); //TODO ログインユーザーに変更
+		member.setUpdateUser(loginUser.getUserId());
 		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		
 		logger.info("[member登録／member更新]");
@@ -265,10 +266,11 @@ public class MemberEditController {
 		Member member = modelMapper.map(form, Member.class);
 		
 		// 共通項目の設定
+		LoginUser loginUser = commonService.getLoginUser();
 		member.setDeleteFlg(0);
-		member.setRegistUser(1); //TODO ログインユーザーに変更
+		member.setRegistUser(loginUser.getUserId());
 		member.setRegistTime(new Timestamp(System.currentTimeMillis()));
-		member.setUpdateUser(1); //TODO ログインユーザーに変更
+		member.setUpdateUser(loginUser.getUserId());
 		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		
 		// DB更新処理 
