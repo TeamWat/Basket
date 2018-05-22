@@ -16,12 +16,6 @@
 <link href="/css/style.css" rel="stylesheet" />
 
 <!--     Fonts and icons     -->
-<link
-	href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700'
-	rel='stylesheet' type='text/css' />
-<link
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
-	rel="stylesheet" />
 <link href="bootstrap/assets/css/nucleo-icons.css" rel="stylesheet" />
 <style>
 p.msg {
@@ -39,7 +33,7 @@ p.msg {
 				<div class="container">
 					<div class="" role="alert" th:id="flash-message"  th:text="${message}"></div>
 					<div class="tim-title">
-						<h2>Basic Elements</h2>
+						<h2>メンバー情報一覧</h2>
 					</div>
 					<div class="tim-title label-btn">
 						<div class="label-btn">
@@ -58,6 +52,7 @@ p.msg {
 						<table class="table table-hover ">
 							<thead>
 								<tr>
+									<th>Team</th>
 									<th>No</th>
 									<th>名前</th>
 									<th>学年</th>
@@ -66,7 +61,8 @@ p.msg {
 							</thead>
 							<tbody>
 								<tr th:each="member: ${memberList}"  data-href="member/regist" class="tr-hover">
-									<td th:text="${member.no}" class="vertical-min"></td>
+									<td th:text="${member.teamName}" class="vertical-min"></td>
+									<td th:text="${member.displayNo}" class="vertical-min"></td>
 									<td th:text="${member.memberName}" class="vertical-min"></td>
 									<td th:text="${member.grade}" class="vertical-min"></td>
 									<td class="vertical-min">

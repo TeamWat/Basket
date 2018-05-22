@@ -17,7 +17,8 @@ public class Member {
 	@Column(name="member_id")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer memberId;
-	
+	private Integer nendo;
+	private Integer teamKubun;
 	private String memberName;
 	private String memberNameKn;
 	private Integer no;
@@ -33,6 +34,22 @@ public class Member {
 
 	public Integer getMemberId() {
 		return memberId;
+	}
+	
+	public Integer getNendo() {
+		return nendo;
+	}
+
+	public void setNendo(Integer nendo) {
+		this.nendo = nendo;
+	}
+
+	public Integer getTeamKubun() {
+		return teamKubun;
+	}
+
+	public void setTeamKubun(Integer teamKubun) {
+		this.teamKubun = teamKubun;
 	}
 
 	public void setMemberId(Integer memberId) {

@@ -9,16 +9,11 @@
 <link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
 <link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+<link href="/sweetalert/css/sweetalert2.css" rel="stylesheet" type="text/css">
+<link href="/css/fontawesome-all.css" rel="stylesheet">
 <link href="/css/custom.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
 
-<!--     Fonts and icons     -->
-<link
-	href='http://fonts.googleapis.com/css?family=Montserrat:400,300,700'
-	rel='stylesheet' type='text/css' />
-<link
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"
-	rel="stylesheet" />
-<link href="bootstrap/assets/css/nucleo-icons.css" rel="stylesheet" />
 <style>
 p.msg {
 	border: solid 1px lightgray;
@@ -49,8 +44,18 @@ p.msg {
 									<th>登録内容</th>
 								</tr>
 								<tr>
+									<th class="">年度</th>
+									<td th:text="|${memberForm.nendo}年度|"></td>
+									<input type="hidden" th:field="*{nendo}" th:value="${nendo}" />
+								</tr>
+								<tr>
+									<th class="">チーム</th>
+									<td th:text="${EnumTeam.name}"></td>
+									<input type="hidden" th:field="*{teamKubun}" th:value="${teamKubun}" />
+								</tr>
+								<tr>
 									<th class="">背番号</th>
-									<td th:text="${memberForm.no}"></td>
+									<td th:text="${EnumNo.sName}"></td>
 									<input type="hidden" th:field="*{no}" th:value="${no}" />
 								</tr>
 								<tr>
@@ -65,7 +70,7 @@ p.msg {
 								</tr>
 								<tr>
 									<th class="">学年</th>
-									<td th:text="${memberForm.grade}"></td>
+									<td th:text="${EnumGrade.name}"></td>
 									<input type="hidden" th:field="*{grade}" th:value="${grade}" />
 								</tr>
 							</table>
@@ -91,13 +96,12 @@ p.msg {
 </body>
 
 <!-- Core JS Files -->
-<script src="../assets/js/jquery-3.2.1.js" type="text/javascript"></script>
-<script src="../assets/js/jquery-ui-1.12.1.custom.min.js"
+<script src="/bootstrap/assets/js/jquery-3.2.1.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/jquery-ui-1.12.1.custom.min.js"
 	type="text/javascript"></script>
-<script src="../assets/js/tether.min.js" type="text/javascript"></script>
-<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
-
-<!--  Paper Kit Initialization snd functons -->
-<script src="../assets/js/paper-kit.js?v=2.0.1"></script>
+<script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript" ></script>
 
 </html>
