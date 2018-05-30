@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+*:focus {
+outline: none;
+}
+
 .navbar .container {
 	background-color: white;
 }
@@ -95,3 +99,63 @@ tr#templete {
     padding-bottom: 10px;
     border-bottom: solid 0.5px #c1c1c1;
 }
+
+.changeTeam {
+	outline:none;
+	box-sizing: border-box;
+	border-width: 2px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.75;
+	cursor: pointer;
+	text-transform: uppercase;
+	opacity: 1;
+	
+	margin: 1px 0 1px 0;
+	padding: 0px 20px 0px;
+	width: 90px;
+	height: 35px;
+	background-color: #ffffff;
+	border: solid 2px #c1c1c1;
+	color: #c1c1c1;
+	border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+	
+}
+
+.changeTeam:first-child {
+	margin-left: 50px;
+	border-right: none;
+	border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.changeTeam:last-child {
+	border-left: none;
+	border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.changeTeam:hover {
+	background-color: #a3a3a3;
+	border-color: #c1c1c1;
+	color: #ffffff;
+}
+
+.changeTeamSelected {
+	background-color: #a3a3a3;
+	border-color: #c1c1c1;
+	color: #ffffff;
+	outline:none;
+}
+
+.teamDispNone {
+	display: none;
+}
+

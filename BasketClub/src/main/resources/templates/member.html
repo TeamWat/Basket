@@ -15,8 +15,6 @@
 <link href="/css/custom.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 
-<!--     Fonts and icons     -->
-<link href="bootstrap/assets/css/nucleo-icons.css" rel="stylesheet" />
 <style>
 p.msg {
 	border: solid 1px lightgray;
@@ -40,8 +38,10 @@ p.msg {
 							<div>
 								<h3 class="title">登録メンバー</h3>
 							</div>
-							<div>
-								<a href="member/regist" class="btn btn-info changeTeam">→　Big</a>
+							<div class="btn-group">
+								<button class="changeTeam" type="button" th:name="selectbig">ビッグ</button>
+							 	<button class="changeTeam" type="button" th:name="selectall">ALL</button>
+							 	<button class="changeTeam" type="button" th:name="selectyabedan">ヤベダン</button>
 							</div>
 						</div>
 						<div>
@@ -52,8 +52,8 @@ p.msg {
 						<table class="table table-hover ">
 							<thead>
 								<tr>
-									<th>Team</th>
-									<th>No</th>
+									<th class="wid4">チーム</th>
+									<th>背番号</th>
 									<th>名前</th>
 									<th>学年</th>
 									<th style="width:170px;"></th>
@@ -61,9 +61,14 @@ p.msg {
 							</thead>
 							<tbody>
 								<tr th:each="member: ${memberList}"  data-href="member/regist" class="tr-hover">
-									<td th:text="${member.teamName}" class="vertical-min"></td>
-									<td th:text="${member.displayNo}" class="vertical-min"></td>
-									<td th:text="${member.memberName}" class="vertical-min"></td>
+									<td class="wid7" name="big" th:if="${member.teamKubun == T(jp.wat.basket.common.Enum.EnumTeamKubun).BIG.code}">
+										<img th:src="@{/img/bibs11.png}" alt="ビッグ" width="40" height="40"/>
+									</td>
+									<td class="wid7" name="yabedan" th:if="${member.teamKubun == T(jp.wat.basket.common.Enum.EnumTeamKubun).YABEDAN.code}">
+										<img th:src="@{/img/bibs12.png}" alt="ヤベダン" width="40" height="40"/>
+									</td>
+									<td th:text="${member.displayNo}" class="vertical-min wid9"></td>
+									<td th:text="${member.memberName}" class="vertical-min wid30"></td>
 									<td th:text="${member.grade}" class="vertical-min"></td>
 									<td class="vertical-min">
 									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
@@ -86,7 +91,6 @@ p.msg {
 <script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
 <script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
 <script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.js" data-turbolinks-track="true"></script>
 <script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript" ></script>
 <script src="/js/member.js" type="text/javascript" ></script>
@@ -108,6 +112,27 @@ $(document).ready( function() {
 	if ($message != null && $message != "") {
 		flashMessage($message, "success");	
 	}
+	
+	$('button.changeTeam').click(function(){
+		// 選択状態を解除して、クリックしたボタンに選択状態のクラスを付与する
+		$('button.changeTeam').removeClass("changeTeamSelected");
+		$(this).addClass("changeTeamSelected");
+		
+		$selectTeam = $(this).attr("name");
+		
+		// フィルタを解除する
+		$('[name="big"]').parent().removeClass("teamDispNone");
+		$('[name="yabedan"]').parent().removeClass("teamDispNone");
+		
+		// 一覧のフィルタ（ビッグを選択したらヤベダンを非表示。ヤベダンを選択したらビッグ非表示とする）
+		if($selectTeam == 'selectbig') {
+			$('[name="yabedan"]').parent().addClass("teamDispNone");
+		}
+		if($selectTeam == 'selectyabedan') {
+			$('[name="big"]').parent().addClass("teamDispNone");
+		}
+	});
+	
 });
 
 </script>

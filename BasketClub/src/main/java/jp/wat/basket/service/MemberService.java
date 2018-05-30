@@ -30,7 +30,7 @@ public class MemberService {
 	
 	public List<MemberViewModel> getAllMember(){
 		// 有効なメンバー情報を取得する
-		List<Member> memberList = repository.findAllByOrderByIdAsc();
+		List<Member> memberList = repository.findAllMember();
 		
 		List<MemberViewModel> memberViewModelList = new ArrayList<MemberViewModel>();
 		ModelMapper modelMapper = new ModelMapper();

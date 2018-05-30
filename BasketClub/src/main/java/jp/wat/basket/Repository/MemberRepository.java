@@ -19,8 +19,8 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	 * メンバー情報を全件取得する
 	 * ソート順　背番号（No）の昇順
 	*/
-	@Query(value="select m from Member m where deleteFlg = '0' order by no")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
-	public List<Member> findAllByOrderByIdAsc();
+	@Query(value="select m from Member m where deleteFlg = '0' order by nendo, teamKubun, no")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
+	public List<Member> findAllMember();
 
 	/**
 	 * メンバーIDをキーにメンバー情報を取得する
