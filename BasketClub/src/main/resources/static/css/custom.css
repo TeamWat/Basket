@@ -62,11 +62,6 @@ h3.title {
   margin-top:0;
 }
 
-.changeTeam {
-  margin-left:20px;
-  margin-bottom:0;
-}
-
 td.vertical-min {
   vertical-align: middle;
   padding-top: 2px;
@@ -95,6 +90,22 @@ td.vertical-min {
 
 .wid5 {
   width: 50px;
+}
+
+.wid6 {
+  width: 60px;
+}
+.wid7 {
+  width: 70px;
+}
+.wid8 {
+  width: 80px;
+}
+.wid9 {
+  width: 90px;
+}
+.wid30 {
+  width: 300px;
 }
 
 .mgin-pd-01 {
