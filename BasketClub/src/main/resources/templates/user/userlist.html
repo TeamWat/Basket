@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 <head>
-<title>member</title>
+<title>user</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" href="webjars/jquery-ui/1.12.1/jquery-ui.min.css" />
@@ -31,50 +31,39 @@ p.msg {
 				<div class="container">
 					<div class="" role="alert" th:id="flash-message"  th:text="${message}"></div>
 					<div class="tim-title">
-						<h2>メンバー情報一覧</h2>
+						<h2>ユーザー情報一覧</h2>
 					</div>
 					<div class="tim-title label-btn">
 						<div class="label-btn">
-							<div>
-								<h3 class="title">登録メンバー</h3>
-							</div>
-							<div class="btn-group">
-								<button class="changeTeam" type="button" th:name="selectbig">ビッグ</button>
-							 	<button class="changeTeam" type="button" th:name="selectall">ALL</button>
-							 	<button class="changeTeam" type="button" th:name="selectyabedan">ヤベダン</button>
-							</div>
 						</div>
 						<div>
-							<a href="/member/regist/input" class="btn btn-info">新規メンバー登録</a>
+							<a href="/user/regist/input" class="btn btn-info">新規ユーザー登録</a>
 						</div>
 					</div>
 					<div class="row">
 						<table class="table table-hover ">
 							<thead>
 								<tr>
-									<th class="wid4">チーム</th>
-									<th>背番号</th>
-									<th>名前</th>
-									<th>学年</th>
+									<th class="wid9">ユーザーID</th>
+									<th>ユーザー名</th>
+									<th>ユーザー名（カナ）</th>
+									<th>権限</th>
+									<th>メールアドレス</th>
 									<th class="wid20"></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="member: ${memberList}"  data-href="member/regist" class="tr-hover">
-									<td class="wid7" name="big" th:if="${member.teamKubun == T(jp.wat.basket.common.Enum.EnumTeamKubun).BIG.code}">
-										<img th:src="@{/img/bibs11.png}" alt="ビッグ" width="40" height="40"/>
-									</td>
-									<td class="wid7" name="yabedan" th:if="${member.teamKubun == T(jp.wat.basket.common.Enum.EnumTeamKubun).YABEDAN.code}">
-										<img th:src="@{/img/bibs12.png}" alt="ヤベダン" width="40" height="40"/>
-									</td>
-									<td th:text="${member.displayNo}" class="vertical-min wid9"></td>
-									<td th:text="${member.memberName}" class="vertical-min wid30"></td>
-									<td th:text="${member.grade}" class="vertical-min"></td>
+								<tr th:each="user: ${userList}"  data-href="user/regist" class="tr-hover">
+									<td th:text="${user.userId}" class="vertical-min wid15"></td>
+									<td th:text="${user.userName}" class="vertical-min wid20"></td>
+									<td th:text="${user.userNameKn}" class="vertical-min wid20"></td>
+									<td th:text="${user.roleName}" class="vertical-min wid15"></td>
+									<td th:text="${user.mail}" class="vertical-min wid30"></td>
 									<td class="vertical-min">
-									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
-									  <a th:href="@{'member/delete/confirm/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
+									  <a th:href="@{'user/edit/input/' + ${user.userId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
+									  <a th:href="@{'user/delete/confirm/' + ${user.userId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
 									</td>
 								</tr>
+							<tbody>
 							</tbody>
 						</table>
 					</div>
@@ -112,27 +101,7 @@ $(document).ready( function() {
 	if ($message != null && $message != "") {
 		flashMessage($message, "success");	
 	}
-	
-	$('button.changeTeam').click(function(){
-		// 選択状態を解除して、クリックしたボタンに選択状態のクラスを付与する
-		$('button.changeTeam').removeClass("changeTeamSelected");
-		$(this).addClass("changeTeamSelected");
-		
-		$selectTeam = $(this).attr("name");
-		
-		// フィルタを解除する
-		$('[name="big"]').parent().removeClass("teamDispNone");
-		$('[name="yabedan"]').parent().removeClass("teamDispNone");
-		
-		// 一覧のフィルタ（ビッグを選択したらヤベダンを非表示。ヤベダンを選択したらビッグ非表示とする）
-		if($selectTeam == 'selectbig') {
-			$('[name="yabedan"]').parent().addClass("teamDispNone");
-		}
-		if($selectTeam == 'selectyabedan') {
-			$('[name="big"]').parent().addClass("teamDispNone");
-		}
-	});
-	
+
 });
 
 </script>

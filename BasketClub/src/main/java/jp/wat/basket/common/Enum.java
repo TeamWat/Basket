@@ -198,4 +198,60 @@ public class Enum {
 	    }
 	}
 	
+	/*
+	 * ロールのEnum
+	 */
+	public enum EnumRole implements Encodable<Integer>{
+
+	    PUBLIC   (1, "一般", "ROLE_PUBLIC"),
+	    OFFICER  (2, "役員", "ROLE_OFFICER"),
+	    ADMIN    (9, "管理者", "ROLE_ADMIN");
+
+	    
+	    /** デコーダー */
+	    private static final Decoder<Integer, EnumRole> DECODER = Decoder.create(values());
+	  
+	    private final Integer code;  /* コード値 */
+	    private final String name;   /* 名称 */
+	    private final String sname;  /* 略称 */
+	    
+	    /**
+	     * コンストラクタ.
+	     * 
+	     * @param code コード値
+	     * @param name 名称
+	     * @param sname 略称
+	     */
+	    private EnumRole(Integer code, String name, String sname) {
+	        this.code = code;
+	        this.name = name;
+	        this.sname = sname;
+	    }
+	    
+	    @Override
+	    public Integer getCode() {
+	        return code;
+	    }
+	    
+	    /**
+	     * コード値からEnumクラスを取得する.
+	     * 
+	     * @param code コード値
+	     * @return 受領形式Enumクラス
+	     */
+	    public static EnumRole decode(Integer code) {
+	        return DECODER.decode(code);
+	    }
+	    
+	    public String getName() {
+	        return name;
+	    }
+	    
+	    public String getSName() {
+	        return sname;
+	    }
+	}
+	
+	
+	
 }
