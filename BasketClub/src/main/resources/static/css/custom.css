@@ -104,6 +104,12 @@ td.vertical-min {
 .wid9 {
   width: 90px;
 }
+.wid15 {
+  width: 150px;
+}
+.wid20 {
+  width: 200px;
+}
 .wid30 {
   width: 300px;
 }
@@ -164,4 +170,8 @@ tr.tr-hover:hover	{
 }
 .navbar .navbar-nav .nav-item .nav-link {
     margin: 5px 0px;
+}
+
+span.text-danger {
+	white-space: nowrap;
 }
