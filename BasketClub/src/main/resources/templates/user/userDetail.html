@@ -1,0 +1,125 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+	<title>user</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+	<link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
+	<link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+	<link href="/sweetalert/css/sweetalert2.css" rel="stylesheet" type="text/css">
+	<link href="/css/fontawesome-all.css" rel="stylesheet">
+	<link href="/css/custom.css" rel="stylesheet" />
+	<link href="/css/style.css" rel="stylesheet" />
+
+<style>
+p.msg {
+	border: solid 1px lightgray;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div th:replace="navi::nav"></div>
+	<div class="wrapper">
+		<div class="filter"></div>
+		<div class="main">
+		<div class="section section-buttons">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/user}">ユーザー詳細</a></li>
+                    <li class="breadcrumb-item active"><a th:text="|${userForm.userId} さん|"></a></li>
+                </ol>
+				<div class="container">   
+					<div class="tim-title label-btn">
+						<div>
+							<h3 class="mt-2">登録情報</h3>
+						</div>
+						<div>
+							<button type="button" class="btn btn-info">編集</button>
+                            <button type="button" class="btn btn-info">削除</button>
+						</div>
+					</div>
+					<div>
+						<table class="table">
+								<tr>
+                                    <th class="w-25">ユーザーID</th>
+                                    <td th:text="${userForm.userId}"></td>
+								</tr>
+                            	<tr>
+                                    <th>ユーザー名</th>
+                                    <td th:text="${userForm.userName}"></td>
+								</tr>
+                            	<tr>
+                                    <th>ユーザー名カナ</th>
+                                    <td th:text="${userForm.userNameKn}"></td>
+								</tr>
+                            	<tr>
+                                    <th>権限</th>
+                                    <td th:text="${EnumRole.name}"></td>
+								</tr>
+                            	<tr>
+                                    <th>メールアドレス</th>
+                                    <td th:text="${userForm.mail}"></td>
+								</tr>
+						</table>
+					</div>
+					
+                    <div class="tim-title label-btn">
+						<div>
+							<h3 class="mt-2">閲覧設定</h3>
+						</div>
+                        <div>
+							<a th:href="@{/user/usersMember(uid=${userForm.userId})}" class="btn btn-info">設定変更</a>
+						</div>
+					</div>
+                    <div th:each="nendo: ${nendoKeys.keySet()}">
+						<table class="table">
+								<tr>
+                                    <th class="w-25" th:text="|${nendo}年度|"></th>
+                                    <td th:each="member: ${nendoKeys.get(nendo)}" th:if="${nendo} == ${member.nendo}" th:text="|${member.memberName}（${member.grade}年）|"></td>
+                                    <td></td>
+								</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Core JS Files -->
+
+<script th:src="@{/webjars/jquery/3.2.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/jquery-ui/1.12.1/jquery-ui.min.js}"></script>
+<script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript" ></script>
+<script src="/js/member.js" type="text/javascript" ></script>
+
+<!-- Plugin for Switches -->
+<script src="/bootstrap/assets/js/bootstrap-switch.min.js"></script>
+
+<!--  Plugins for Slider -->
+<script src="/bootstrap/assets/js/nouislider.js"></script>
+
+<!--  Paper Kit Initialization snd functons -->
+<script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
+<script src="/js/user.js"></script>
+<script type="text/javascript">
+
+$(document).ready( function() {
+	
+	$message = $('#flash-message').text();
+	if ($message != null && $message != "") {
+		flashMessage($message, "success");	
+	}
+
+});
+
+</script>
+
+</html>

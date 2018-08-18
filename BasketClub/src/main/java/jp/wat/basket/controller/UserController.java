@@ -26,7 +26,7 @@ public class UserController {
 	
 		List<UserViewModel> userList = userService.getAllUser();
 		
-		// ユーザー情報取得
+		// ログインユーザー情報取得
 		LoginUser loginUser = commonService.getLoginUser();
 		
 		model.addAttribute("userName", loginUser.getUserName());

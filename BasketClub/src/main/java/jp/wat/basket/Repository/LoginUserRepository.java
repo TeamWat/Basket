@@ -15,7 +15,7 @@ public interface LoginUserRepository extends JpaRepository<LoginUser, Integer> {
 	 * ユーザー情報を全件取得する
 	*/
 	@Query(value="select m from LoginUser m")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
-	public List<LoginUser> findAllByOrderByIdAsc();
+	public List<LoginUser> findAllUser();
 
 	/**
 	 * ユーザーIDをキーにユーザー情報を取得する

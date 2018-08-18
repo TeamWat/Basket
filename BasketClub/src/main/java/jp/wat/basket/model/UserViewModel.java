@@ -1,10 +1,10 @@
 package jp.wat.basket.model;
 
-import jp.wat.basket.entity.User;
+import jp.wat.basket.entity.LoginUser;
 
-public class UserViewModel extends User{
+public class UserViewModel extends LoginUser{
 
-	// userクラスでは保持していないロール名などはこちらのクラスで保持する
+	// loguinUserクラスで保持していないロール名などはこちらのクラスで保持する
 	
 	private String RoleName;
 	private Integer RoleCode;

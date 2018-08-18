@@ -4,6 +4,10 @@
 outline: none;
 }
 
+button {
+	border-color: #FFFFFF;
+}
+
 .navbar .container {
 	background-color: white;
 }
@@ -22,6 +26,14 @@ outline: none;
 	background-color: #51bcda;
 	color: rgba(255, 255, 255, 0.8);
 	border-color: #51bcda;
+}
+
+.btn-selected {
+	outline:none;
+	transition: 0.3s ;
+	background-color: #51bcda;
+	color: rgba(255, 255, 255, 0.8);
+	/* border-color: #51bcda; */
 }
 
 td.action {
@@ -157,5 +169,10 @@ tr#templete {
 
 .teamDispNone {
 	display: none;
+}
+
+.inlineBlock {
+	margin: 10px 7px;
+	display: inline-block;
 }
 

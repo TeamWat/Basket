@@ -7,64 +7,62 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "user_member")
+public class UserMember {
 	
-	@Id
-	@Column(name="user_id")
-	private String userId;		// ID
-	private String password;		// パスワード
-	private String userName;		// ユーザー名
-	private String userNameKn;	// ユーザー名カナ
-	private String role;			// 権限
-	private String mail;			// メールアドレス	
-	
-	/*--- 共通項目 ---*/
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer id;
+    
+    private String userId;
+    private Integer nendo;
+    @Column(name="member_id")
+    private Integer memberId;
 	private String registUser;		// 登録ユーザー
 	private Timestamp registTime;	// 登録日時
 	private String updateUser;		// 更新ユーザー
 	private Timestamp updateTime;	// 更新日時
-	private Integer deleteFlg;		// 削除フラグ
-	/*--- 共通項目 ---*/
+	
+	@ManyToOne
+	@JoinColumn(name="member_id", referencedColumnName="member_id", insertable=false, updatable=false)
+    private Member member;
+	
+	// JPA requirement
+    protected UserMember() {}
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getPassword() {
-		return password;
+	public Integer getNendo() {
+		return nendo;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setNendo(Integer nendo) {
+		this.nendo = nendo;
 	}
-	public String getUserName() {
-		return userName;
+	public Integer getMemberId() {
+		return memberId;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
 	}
-	public String getUserNameKn() {
-		return userNameKn;
-	}
-	public void setUserNameKn(String userNameKn) {
-		this.userNameKn = userNameKn;
-	}
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public String getMail() {
-		return mail;
-	}
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+
 	public String getRegistUser() {
 		return registUser;
 	}
@@ -89,11 +87,12 @@ public class User {
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
-	public Integer getDeleteFlg() {
-		return deleteFlg;
-	}
-	public void setDeleteFlg(Integer deleteFlg) {
-		this.deleteFlg = deleteFlg;
+
+	public Member getMember() {
+		return member;
 	}
 
+	public void setMember(Member member) {
+		this.member = member;
+	}	
 }

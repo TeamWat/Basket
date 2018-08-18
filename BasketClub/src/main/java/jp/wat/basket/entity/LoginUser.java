@@ -1,5 +1,7 @@
 package jp.wat.basket.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,6 @@ public class LoginUser {
 	
 	@Id
 	@Column(name="user_id")
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String userId;		// ID
 	private String password;		// パスワード
 	private String userName;		// ユーザー名
@@ -22,11 +23,11 @@ public class LoginUser {
 	private String mail;			// メールアドレス	
 	
 	/*--- 共通項目 ---*/
-	private String registTime;	// 登録日時
-	private String registUser;	// 登録ユーザー
-	private String updateTime;	// 更新日時
-	private String updateUser;	// 更新ユーザー
-	private boolean deleteFlg;	// 削除フラグ
+	private String registUser;		// 登録ユーザー
+	private Timestamp registTime;	// 登録日時
+	private String updateUser;		// 更新ユーザー
+	private Timestamp updateTime;	// 更新日時
+	private Integer deleteFlg;		// 削除フラグ
 	/*--- 共通項目 ---*/
 	public String getUserId() {
 		return userId;
@@ -64,10 +65,10 @@ public class LoginUser {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public String getRegistTime() {
+	public Timestamp getRegistTime() {
 		return registTime;
 	}
-	public void setRegistTime(String registTime) {
+	public void setRegistTime(Timestamp registTime) {
 		this.registTime = registTime;
 	}
 	public String getRegistUser() {
@@ -76,10 +77,10 @@ public class LoginUser {
 	public void setRegistUser(String registUser) {
 		this.registUser = registUser;
 	}
-	public String getUpdateTime() {
+	public Timestamp getUpdateTime() {
 		return updateTime;
 	}
-	public void setUpdateTime(String updateTime) {
+	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
 	}
 	public String getUpdateUser() {
@@ -88,10 +89,10 @@ public class LoginUser {
 	public void setUpdateUser(String updateUser) {
 		this.updateUser = updateUser;
 	}
-	public boolean isDeleteFlg() {
+	public Integer isDeleteFlg() {
 		return deleteFlg;
 	}
-	public void setDeleteFlg(boolean deleteFlg) {
+	public void setDeleteFlg(Integer deleteFlg) {
 		this.deleteFlg = deleteFlg;
 	}
 

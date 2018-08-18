@@ -213,14 +213,14 @@ public class Enum {
 	  
 	    private final Integer code;  /* コード値 */
 	    private final String name;   /* 名称 */
-	    private final String sname;  /* 略称 */
+	    private final String sname;  /* 物理名 */
 	    
 	    /**
 	     * コンストラクタ.
 	     * 
 	     * @param code コード値
 	     * @param name 名称
-	     * @param sname 略称
+	     * @param sname 物理名
 	     */
 	    private EnumRole(Integer code, String name, String sname) {
 	        this.code = code;
@@ -250,6 +250,24 @@ public class Enum {
 	    public String getSName() {
 	        return sname;
 	    }
+	    
+	    /**
+	     * 名称からEnumを取得する（for文利用）
+	     *
+	     * @param code
+	     * @return
+	     */
+	    public static EnumRole getByName(String sname) {
+	        for (EnumRole enumRole : EnumRole.values()) {
+	            if (enumRole.getSName().equals(sname)) {
+	                return enumRole;
+	            }
+	        }
+	        return null;
+	    }
+	    
+	    
+	    
 	}
 	
 	

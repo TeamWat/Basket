@@ -33,5 +33,18 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	*/
 	@Query(value="select m from Member m where no = :no")	
 	public Member findByNo(Integer no);
+
+	/**
+	 * メンバーが存在する年度を全て取得する
+	 * 重複を排除して返却する
+	*/
+	@Query(value="select distinct m.nendo from Member m where deleteFlg = '0' order by nendo asc")	
+	public List<Integer> getNendoList();
+
+	/**
+	 * 年度をキーにメンバーを取得する
+	*/
+	@Query(value="select m from Member m where nendo = :nendo and deleteFlg = '0' order by no asc")	
+	public List<Member> findByNendo(Integer nendo);
 	
 }
