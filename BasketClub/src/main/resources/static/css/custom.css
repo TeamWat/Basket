@@ -114,6 +114,10 @@ td.vertical-min {
   width: 300px;
 }
 
+.breadcrumb {
+  background-color: transparent;
+}
+
 .mgin-pd-01 {
   margin: 5px 5px;
   padding: 5px 5px;
@@ -146,6 +150,25 @@ td.vertical-min {
   visibility: visible;
 }
 
+button.btn-custom {
+    box-sizing: border-box;
+    border-width: 2px;
+    /* font-size: 12px; */
+    font-weight: 600;
+    padding: 0.5rem 18px;
+    line-height: 1.75;
+}
+
+button.btn-light {
+	background-color : #e2e6ea;
+	border-color: #FFFFFF;
+	color : #212529;
+}
+
+button.nohover {
+    pointer-events: none;
+}
+
 .table th.vh-center, .table td.vh-center {
     text-align: center;
     margin: 0;
@@ -175,3 +198,20 @@ tr.tr-hover:hover	{
 span.text-danger {
 	white-space: nowrap;
 }
+
+/* ナビタブのデザインは　paperkitの設定をやめてbootstrapの設定にもどす */
+
+.nav-tabs {
+  border-bottom: 1px solid #ddd; */
+}
+
+.nav-tabs .nav-item .nav-link {
+  border: 1px solid transparent;
+}
+
+.nav-tabs .nav-item .nav-link.active, .nav-tabs .nav-item .nav-link.active:hover, .nav-tabs .nav-item .nav-link.active:focus {
+  border: 1px solid transparent;
+  border-color: #ddd #ddd #fff;
+}
+
+/* ナビタブのデザインは　paperkitの設定をやめてbootstrapの設定にもどす END */

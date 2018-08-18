@@ -12,10 +12,13 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import jp.wat.basket.Repository.MemberRepository;
+import jp.wat.basket.Repository.UserMemberRepository;
 import jp.wat.basket.common.Enum.EnumSebango;
 import jp.wat.basket.common.Enum.EnumTeamKubun;
 import jp.wat.basket.entity.Member;
 import jp.wat.basket.entity.ScheduleDetail;
+import jp.wat.basket.entity.UserMember;
+import jp.wat.basket.entity.UserNendo;
 import jp.wat.basket.model.MemberViewModel;
 
 import org.modelmapper.ModelMapper;
@@ -27,6 +30,10 @@ public class MemberService {
 	
 	@Autowired
 	private MemberRepository repository;
+	
+	@Autowired
+	private UserMemberRepository userMemberRepository;
+	
 	
 	public List<MemberViewModel> getAllMember(){
 		// 有効なメンバー情報を取得する
@@ -83,4 +90,27 @@ public class MemberService {
         repository.save(information);
     }
 
+	/**
+	 * メンバーが存在する年度を全て取得する
+	 * 重複を排除して返却する
+	 */
+	public List<Integer> getMembersNendoList() {
+		return repository.getNendoList();
+	}
+
+	/**
+	 * 年度をキーにメンバーを取得する
+	 */
+	public List<Member> getPermissionMember(Integer nendo) {
+		return repository.findByNendo(nendo);
+	}
+	
+	/**
+	 * ユーザーIDをキーにメンバーを取得する
+	 */
+	public List<UserMember> getUserMember(String userId){
+		return userMemberRepository.findByUserId(userId);
+	}
+	
+	
 }
