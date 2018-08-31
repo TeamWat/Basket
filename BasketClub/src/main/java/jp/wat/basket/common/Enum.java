@@ -152,7 +152,9 @@ public class Enum {
 	    MARU_SIXTEEN   (116, "　⑯", "⑯"),
 	    MARU_SEVENTEEN  (117, "　⑰", "⑰"),
 	    MARU_EIGHTEEN   (118, "　⑱", "⑱"),
-	    MARU_NINETEEN   (119, "　⑲", "⑲");
+	    MARU_NINETEEN   (119, "　⑲", "⑲"),
+	    MARU_TWENTY   (120, "　⑳", "⑳"),
+	    MARU_TEWENTYONE   (121, "　㉑", "㉑");
 	    
 	    /** デコーダー */
 	    private static final Decoder<Integer, EnumSebango> DECODER = Decoder.create(values());

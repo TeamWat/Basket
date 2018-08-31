@@ -176,3 +176,6 @@ tr#templete {
 	display: inline-block;
 }
 
+.checkbox-margin {
+	margin-left: 10px;
+}

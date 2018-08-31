@@ -199,6 +199,10 @@ span.text-danger {
 	white-space: nowrap;
 }
 
+span.text-nowrap {
+	white-space: nowrap;
+}
+
 /* ナビタブのデザインは　paperkitの設定をやめてbootstrapの設定にもどす */
 
 .nav-tabs {
