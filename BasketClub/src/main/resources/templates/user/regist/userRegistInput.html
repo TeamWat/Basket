@@ -64,8 +64,7 @@ p.msg {
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label class="control-label">パスワード</label>
-								<input type="text" class="form-control" th:classappend="(${#fields.hasErrors('password')}? has-error :'')
-								 +' '+ (${#fields.hasErrors('passwordMatch')}? has-error:'')" th:field="*{password}">
+								<input type="text" class="form-control" th:classappend="${#fields.hasErrors('password')}? has-error" th:field="*{password}">
 								<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 							</div>
 						</div>
@@ -74,10 +73,8 @@ p.msg {
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label class="control-label">パスワード（確認用）</label>
-								<input type="text" class="form-control" th:classappend="(${#fields.hasErrors('rePassword')}? has-error :'')
-								 +' '+ (${#fields.hasErrors('passwordMatch')}? has-error:'')" th:field="*{rePassword}">
+								<input type="text" class="form-control" th:classappend="${#fields.hasErrors('rePassword')}? has-error" th:field="*{rePassword}">
 								<span class="text-danger" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></span>
-								<span class="text-danger" th:if="${#fields.hasErrors('passwordMatch')}" th:errors="*{passwordMatch}"></span>
 							</div>
 						</div>
 					</div>
@@ -104,10 +101,10 @@ p.msg {
 					</div>
                      <div class="row submit-btn-parents">
 						<div>
-							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="cancel" value="　戻　る　"/>
+							<button type="submit" class="btn btn-primary btn-mgin-pd-03" name="cancel" value="cancel">　戻　る　</button>
 						</div>
 						<div>
-							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="confirm" value="確認画面へ"/>
+							<button type="submit" class="btn btn-primary btn-mgin-pd-03" name="confirm" value="confirm">確認画面へ</button>
 						</div>
                     </div>
                     </form>
@@ -138,6 +135,16 @@ $(document).ready( function() {
 	if ($message != null && $message != "") {
 		flashMessage($message, "success");	
 	}
+});
+
+$(function(){
+    $("input").on("keydown", function(e) {
+        if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+            return false;
+        } else {
+            return true;
+        }
+    });
 });
 
 </script>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<title>ユーザー変更確認</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="/bootstrap/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/bootstrap/assets/css/paper-kit.css?v=2.0.1" rel="stylesheet" />
+<link href="/bootstrap/assets/css/demo.css" rel="stylesheet" />
+<link href="/sweetalert/css/sweetalert2.css" rel="stylesheet" type="text/css">
+<link href="/css/fontawesome-all.css" rel="stylesheet">
+<link href="/css/custom.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
+
+<style>
+p.msg {
+	border: solid 1px lightgray;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div th:replace="navi::nav"></div>
+	<div class="wrapper">
+		<div class="filter"></div>
+		<div class="main">
+			<div class="section section-buttons">
+				<div class="container">
+					<div class="" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}"></div>
+					<div class="tim-title">
+						<h2 th:text="ユーザー変更確認"></h2>
+					</div>
+					<form method="post" th:action="transactfinish" th:object="${userForm}">
+					<div>
+						<table class="table table-bordered"
+							th:object="${userForm}">
+							<tr>
+								<th class=""></th>
+								<th>変更内容</th>
+							</tr>
+							<tr>
+								<th class="">ユーザーID</th>
+								<td th:text="${userForm.userId}"></td>
+								<input type="hidden" th:id="userId"  th:field="*{userId}" th:value="${userId}" />
+							</tr>
+							<tr>
+								<th class="">ユーザー名</th>
+								<td th:text="${userForm.userName}"></td>
+								<input type="hidden" th:field="*{userName}" th:value="${userName}" />
+							</tr>
+							<tr>
+								<th class="">ユーザー名（カナ）</th>
+								<td th:text="${userForm.userNameKn}"></td>
+								<input type="hidden" th:field="*{userNameKn}" th:value="${userNameKn}" />
+							</tr>
+							<tr>
+								<th class="">パスワード</th>
+								<td>*******</td>
+								<input type="hidden" th:field="*{password}" th:value="${password}" />
+								<input type="hidden" th:field="*{rePassword}" th:value="${rePassword}" />
+							</tr>
+							<tr>
+								<th class="">権限</th>
+								<td th:text="${EnumRole.name}"></td>
+								<input type="hidden" th:field="*{roleCode}" th:value="${roleCode}" />
+								<input type="hidden" th:field="*{role}" th:value="${role}" />
+							</tr>
+							<tr>
+								<th class="">メールアドレス</th>
+								<td th:text="${userForm.mail}"></td>
+								<input type="hidden" th:field="*{mail}" th:value="${mail}" />
+							</tr>
+						</table>
+                 	</div>
+					<div class="row submit-btn-parents">
+						<div>
+							<input type="button" id="backinput" class="btn btn-primary btn-mgin-pd-03" value="修正する"/>
+						</div>
+						<div>
+							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="submit" value="変更する" />
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+<!-- Core JS Files -->
+<script src="/bootstrap/assets/js/jquery-3.2.1.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/jquery-ui-1.12.1.custom.min.js"
+	type="text/javascript"></script>
+<script src="/bootstrap/assets/js/tether.min.js" type="text/javascript"></script>
+<script src="/bootstrap/assets/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/common.js" type="text/javascript" ></script>
+<script src="/js/useredit.js" type="text/javascript" ></script>
+
+<!--  Paper Kit Initialization snd functons -->
+<!--  <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script> -->
+
+<script type="text/javascript">
+$(document).ready( function() {
+	
+	$message = $('#flash-message').text();
+	
+	if ($message != null && $message != "") {
+		flashMessage($message, "success");	
+	}
+});
+
+</script>
+
+</html>

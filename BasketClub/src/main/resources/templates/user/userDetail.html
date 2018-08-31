@@ -33,12 +33,13 @@ p.msg {
                     <li class="breadcrumb-item active"><a th:text="|${userForm.userId} さん|"></a></li>
                 </ol>
 				<div class="container">   
+					<div class="alert alert-success" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}">フラッシュメッセージ</div>
 					<div class="tim-title label-btn">
 						<div>
 							<h3 class="mt-2">登録情報</h3>
 						</div>
 						<div>
-							<button type="button" class="btn btn-info">編集</button>
+							<a th:href="@{/user/edit/input/{uid}(uid=${userForm.userId})}" class="btn btn-info">編集</a>
                             <button type="button" class="btn btn-info">削除</button>
 						</div>
 					</div>
