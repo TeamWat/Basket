@@ -137,8 +137,8 @@ public class UserEditController {
 	
 	}
 	
-	// 登録／変更処理（共通）
-	@RequestMapping(value={"/user/regist/transactfinish","/user/edit/transactfinish"}, method=RequestMethod.POST, params="submit")
+	// 登録処理
+	@RequestMapping(value={"/user/regist/transactfinish"}, method=RequestMethod.POST, params="submit")
 	public String registComplete(@Validated UserForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes){
 
@@ -211,7 +211,7 @@ public class UserEditController {
 		}
 		
 		// 変更画面　キャンセル
-		@RequestMapping(value = "/user/edit/confirm", method = RequestMethod.POST, params = "cancel")
+		@RequestMapping(value = "/user/edit/cancel", method = RequestMethod.POST, params = "cancel")
 		public String editCancel(UserForm userForm, Model model) {
 			
 			// 詳細画面にリダイレクト
@@ -266,7 +266,72 @@ public class UserEditController {
 				
 				return "/user/edit/userEditConfirm";
 		}	
-	
+		// 変更処理
+		@RequestMapping(value={"/user/edit/transactfinish"}, method=RequestMethod.POST)
+		public String editComplete(@Validated UserForm userForm, BindingResult result, SessionStatus sessionStatus, Model model,
+				RedirectAttributes redirectAttributes) throws Exception{
+			
+			// 入力値チェック
+			// ユーザーIDが変わっていたらエラーとする
+			LoginUser userBfUpdate = userService.findById(userForm.getUserId());
+			if(userBfUpdate == null){
+				logger.error("Formから渡されたユーザーIDがDBに存在しません");
+				throw new Exception();
+			}
+
+			// TODO パスワード変更チェックボックスにチェックが入っていた場合はパスワードを変更情報として渡す
+			// TODO 入力画面でエラー発生させ確認画面に遷移して戻るをすると、システムエラー
+			// パスワード/パスワード確認の入力チェック
+			Map<String, List<String>> errorMap = userForm.passwordValidate(userForm.isPassUpdCheck());
+			List<String> passwordErrorMsgList = errorMap.get("password") != null? errorMap.get("password"): new ArrayList<String>();
+			List<String> rePasswordErrorMsgList = errorMap.get("rePassword")!= null? errorMap.get("rePassword"): new ArrayList<String>();
+			
+			// パスワードエラーがあればエラーメッセージを設定
+			for(String passwordErrorMsg : passwordErrorMsgList){
+				result.rejectValue("password", null , passwordErrorMsg); 
+			}
+			
+			// パスワード（確認用）にエラーがあればエラーメッセージを設定
+			for(String rePasswordErrorMsg : rePasswordErrorMsgList){
+				result.rejectValue("rePassword", null , rePasswordErrorMsg); 
+			}
+			
+			if(result.hasErrors()){
+				// ロールセレクトボックスのItemを設定
+				model.addAttribute("selectRole", EnumRole.values());
+				return "/user/edit/userEditInput";
+			}
+			
+			// 更新用データ設定
+			ModelMapper modelMapper = new ModelMapper();
+			LoginUser user = modelMapper.map(userForm, LoginUser.class);
+			
+			// Roleの設定
+			user.setRole(EnumRole.decode(userForm.getRoleCode()).getSName());
+			
+			if(userForm.isPassUpdCheck()){
+				// 入力パスワードを暗号化してセット
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+			} else {
+				// 変更前のDBのパスワードを取得してセット
+				user.setPassword(userBfUpdate.getPassword());
+			}
+			
+			// 共通項目の設定
+			//LoginUser loginUser = commonService.getLoginUser();
+			user.setDeleteFlg(0);
+			user.setRegistUser(user.getUserId());
+			user.setRegistTime(new Timestamp(System.currentTimeMillis()));
+			user.setUpdateUser(user.getUserId());
+			user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+			// DB更新処理 
+			userService.registUser(user);
+			redirectAttributes.addFlashAttribute("message","更新が完了しました");
+			return "redirect:/user/userDetail/" + user.getUserId();
+			
+		}	
+		
 	/********************************************************
 	 * ユーザー詳細設定
 	 *******************************************************/

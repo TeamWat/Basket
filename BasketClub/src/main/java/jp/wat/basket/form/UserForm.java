@@ -149,7 +149,7 @@ public class UserForm {
 			if(this.getPassword() == null){
 				passwordErrorMsgList.add("8文字以上、32文字以内で入力してください");
 			}else{
-				if(this.getPassword().length() <= 8 || this.getPassword().length() > 32 ){
+				if(this.getPassword().length() < 8 || this.getPassword().length() > 32 ){
 					passwordErrorMsgList.add("8文字以上、32文字以内で入力してください");
 				}
 				if(!this.getPassword().matches("[a-zA-Z0-9\\#\\$\\%\\&\\_\\&.]*")){
@@ -162,7 +162,7 @@ public class UserForm {
 			if(this.getRePassword() == null){
 				rePasswordErrorMsgList.add("8文字以上、32文字以内で入力してください");
 			}else{
-				if(this.getRePassword().length() <= 8 || this.getRePassword().length() > 32 ){
+				if(this.getRePassword().length() < 8 || this.getRePassword().length() > 32 ){
 					rePasswordErrorMsgList.add("8文字以上、32文字以内で入力してください");
 				}
 				if(!this.getRePassword().matches("[a-zA-Z0-9\\#\\$\\%\\&\\_\\&.]*")){

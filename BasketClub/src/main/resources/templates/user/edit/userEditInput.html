@@ -32,7 +32,7 @@ p.msg {
 					<div class="tim-title">
 						<h2 th:text="ユーザー編集"></h2>
 					</div>
-					<form th:method="post" th:action="@{'/user/edit/confirm'}" th:object="${userForm}">
+					<form id="userUpdateForm" th:method="post" th:action="@{'/user/edit/transactfinish'}" th:object="${userForm}">
 					<div class="row">
 						<div class="col-sm-3">
 							<div class="form-group">
@@ -65,7 +65,7 @@ p.msg {
 							<div class="form-group">
 								<label class="control-label">パスワード</label>
 								<label><span class="text-nowrap"><input type="checkbox" id="passUpdCheck" class="checkbox-margin" th:field="*{passUpdCheck}"> パスワードを変更する時はチェックを入れてください</span></label>
-								<input id="password" type="text" class="form-control" th:classappend="${#fields.hasErrors('password')}? has-error" th:field="*{password}" disabled>
+								<input id="password" type="password" class="form-control" th:classappend="${#fields.hasErrors('password')}? has-error" th:field="*{password}" disabled>
 								<span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 							</div>
 						</div>
@@ -74,7 +74,7 @@ p.msg {
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label class="control-label">パスワード（確認用）</label>
-								<input id="repassword" type="text" class="form-control" th:classappend="${#fields.hasErrors('rePassword')}? has-error" th:field="*{rePassword}" disabled>
+								<input id="repassword" type="password" class="form-control" th:classappend="${#fields.hasErrors('rePassword')}? has-error" th:field="*{rePassword}" disabled>
 								<span class="text-danger" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"></span>
 							</div>
 						</div>
@@ -102,10 +102,10 @@ p.msg {
 					</div>
                      <div class="row submit-btn-parents">
 						<div>
-							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="cancel" value="　戻　る　"/>
+							<input type="button" id="cancelbtn"class="btn btn-primary btn-mgin-pd-03" value="　戻　る　"/>
 						</div>
 						<div>
-							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="confirm" value="確認画面へ"/>
+							<input type="button" id="submitbtn" class="btn btn-primary btn-mgin-pd-03" value="変更する"/>
 						</div>
                     </div>
                     </form>
