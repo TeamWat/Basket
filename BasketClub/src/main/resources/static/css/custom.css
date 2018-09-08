@@ -183,6 +183,10 @@ tr.tr-hover:hover	{
     width: 500px;
 }
 
+.alert-error {
+    width: 500px;
+}
+
 .has-error {
 	border-color: red;
 	background-color: #fbdee1;

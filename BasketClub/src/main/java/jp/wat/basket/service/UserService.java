@@ -2,28 +2,18 @@ package jp.wat.basket.service;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import jp.wat.basket.Repository.MemberRepository;
 import jp.wat.basket.Repository.UserMemberRepository;
 import jp.wat.basket.Repository.UserNendoRepository;
 import jp.wat.basket.Repository.LoginUserRepository;
 import jp.wat.basket.common.Enum.EnumRole;
-import jp.wat.basket.common.Enum.EnumSebango;
-import jp.wat.basket.common.Enum.EnumTeamKubun;
 import jp.wat.basket.entity.LoginUser;
-import jp.wat.basket.entity.Member;
-import jp.wat.basket.entity.ScheduleDetail;
 import jp.wat.basket.entity.UserMember;
 import jp.wat.basket.entity.UserNendo;
-import jp.wat.basket.model.MemberViewModel;
 import jp.wat.basket.model.UserViewModel;
 
 import org.modelmapper.ModelMapper;
@@ -87,8 +77,31 @@ public class UserService {
 		repository.save(user);
 	}
 	
-	public void deleteMember(Member member){
-		repository.delete(member.getMemberId());
+	/**
+	 * ユーザーIDをキーにユーザー情報および関連するユーザー情報を削除する
+	 * @param userId
+	 * @return
+	 * @throws Exception 
+	 */
+	@Transactional
+	public void deleteUser(String userId) throws Exception{
+		
+		try {
+			// 紐づくユーザー年度情報を削除する
+			userNendoRepository.deleteUserNendo(userId);
+			// 紐づくユーザーメンバー情報を削除する
+			userMemberRepository.deleteUserMember(userId);
+			// ユーザー
+			repository.deleteUser(userId);
+
+		} catch (RuntimeException runtimeException){
+			// データベース更新はロールバックされる
+			throw runtimeException;
+			
+		} catch (Exception exception) {
+			// 検査例外(Exception及びそのサブクラスでRuntimeExceptionのサブクラスじゃないもの)が発生した場合はロールバックされずコミットされる。
+			throw exception;
+		}
 	}
 	
     private DateFormat SimpleDateFormat(String timeFormat) {
@@ -125,12 +138,23 @@ public class UserService {
 		
 	}
 	
-	/*
+
+	/**
 	 * ユーザーのアクセス可能な年度を削除する
+	 * @param userNendo
 	 */
 	@Transactional
 	public void removeUserNendo(UserNendo userNendo) {
 		userNendoRepository.deleteUserNendo(userNendo.getUserId(), userNendo.getNendo());
+	}
+	
+	/**
+	 * ユーザーのアクセス可能な年度を削除する
+	 * @param userId
+	 */
+	@Transactional
+	public void removeUserNendo(String userId) {
+		userNendoRepository.deleteUserNendo(userId);
 	}
 
 	/*
@@ -163,12 +187,22 @@ public class UserService {
 		
 	}
 	
-	/*
+	/**
 	 * ユーザーのアクセス可能な年度を削除する
+	 * @param userMember
 	 */
 	@Transactional
 	public void removeUserMember(UserMember userMember) {
 		userMemberRepository.deleteUserMember(userMember.getUserId(), userMember.getNendo(), userMember.getMemberId());
+	}
+	
+	/**
+	 * ユーザーIDをキーにuserMember情報を一括削除する
+	 * @param userId
+	 */
+	@Transactional
+	public void removeUserMember(String userId) {
+		userMemberRepository.deleteUserMember(userId);
 	}
 
 }

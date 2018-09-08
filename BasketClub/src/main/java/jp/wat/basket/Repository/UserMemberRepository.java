@@ -33,6 +33,13 @@ public interface UserMemberRepository extends JpaRepository<UserMember, Integer>
 	public void deleteUserMember(String userId, Integer nendo, Integer memberId);
 
 	/**
+	 * 対象ユーザーのデータを削除する
+	*/
+	@Modifying
+	@Query(value="delete from UserMember m where m.userId = :userId")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
+	public void deleteUserMember(String userId);
+	
+	/**
 	 * ユーザーに紐づくメンバー情報を取得する（メンバー情報をJoinして返却する）
 	 * @param userId
 	 * @return
