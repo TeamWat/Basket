@@ -25,4 +25,11 @@ public interface UserNendoRepository extends JpaRepository<UserNendo, Integer>{
 	@Query(value="delete from UserNendo m where m.userId = :userId and m.nendo = :nendo")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
 	public void deleteUserNendo(String userId, Integer nendo);
 	
+	/**
+	 * ユーザーIDをキーにユーザー年度情報を一括削除する
+	*/
+	@Modifying
+	@Query(value="delete from UserNendo m where m.userId = :userId")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
+	public void deleteUserNendo(String userId);
+	
 }

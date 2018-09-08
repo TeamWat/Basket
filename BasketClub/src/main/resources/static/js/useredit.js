@@ -39,7 +39,7 @@ $(function(){
 		      allowOutsideClick: false
 		}).then(function(isConfirm){
 			if (isConfirm.value) {
-			      // Okボタンが押された時の処理
+			      // OKボタンが押された時はユーザー情報の更新をおこなう
 				 $('#userUpdateForm').submit();
 			} else {
 			      // キャンセルボタンを押した時の処理
@@ -70,6 +70,25 @@ $(function(){
 			}else{
 				// キャンセルボタン押下時処理
 				// 何もしない
+			}
+		});	
+	});
+	
+	$('#deletelbtn').on("click", function(){
+		// 確認ダイアログを出して、変更をする
+		swal({
+			  text: "ユーザーを削除してよろしいですか？",
+			  type: "info",
+			  showCancelButton: true,
+			  confirmButtonText: 'OK',
+		      allowOutsideClick: false
+		}).then(function(isConfirm){
+			if (isConfirm.value) {
+				// OKボタンが押された時はユーザー情報の削除を行う				
+				 $('#userdelete').submit();
+			}else{
+				// キャンセルボタン押下時処理
+				// 何もせずダイアログを閉じる
 			}
 		});	
 	});
