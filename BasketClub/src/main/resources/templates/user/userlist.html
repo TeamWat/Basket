@@ -29,7 +29,8 @@ p.msg {
 		<div class="main">
 			<div class="section section-buttons">
 				<div class="container">
-					<div class="" role="alert" th:id="flash-message"  th:text="${message}"></div>
+					<div class="alert alert-success" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}">フラッシュメッセージ</div>
+					<div class="alert alert-error" role="alert" th:id="flash-err-message" th:if="${errorMessage}" th:text="${errorMessage}">フラッシュエラーメッセージ</div>
 					<div class="tim-title">
 						<h2>ユーザー情報一覧</h2>
 					</div>
@@ -99,6 +100,11 @@ $(document).ready( function() {
 	$message = $('#flash-message').text();
 	if ($message != null && $message != "") {
 		flashMessage($message, "success");	
+	}
+	
+	$errMessage = $('#flash-err-message').text();
+	if ($errMessage != null && $errMessage != "") {
+		flashMessage($errMessage, "error");	
 	}
 
 });
