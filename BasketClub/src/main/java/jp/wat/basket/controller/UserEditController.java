@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import jp.wat.basket.BussinessException;
 import jp.wat.basket.common.Util;
 import jp.wat.basket.common.Enum.EnumGrade;
 import jp.wat.basket.common.Enum.EnumRole;
@@ -112,29 +113,46 @@ public class UserEditController {
 	public String registComfirm(@Validated UserForm userForm,
 			BindingResult result,
 			RedirectAttributes redirectAttributes,
-			Model model){
+			Model model) {
+		
+		try {
 			
-		// パスワード/パスワード確認の入力チェック
-		Map<String, List<String>> errorMap = userForm.passwordValidate(true);
-		List<String> passwordErrorMsgList = errorMap.get("password") != null? errorMap.get("password"): new ArrayList<String>();
-		List<String> rePasswordErrorMsgList = errorMap.get("rePassword")!= null? errorMap.get("rePassword"): new ArrayList<String>();
-		
-		// パスワードエラーがあればエラーメッセージを設定
-		for(String passwordErrorMsg : passwordErrorMsgList){
-			result.rejectValue("password", null , passwordErrorMsg); 
-		}
-		
-		// パスワード（確認用）にエラーがあればエラーメッセージを設定
-		for(String rePasswordErrorMsg : rePasswordErrorMsgList){
-			result.rejectValue("rePassword", null , rePasswordErrorMsg); 
-		}
-		
-		if(result.hasErrors()){
-			// ロールセレクトボックスのItemを設定
+			// ユーザーIDの重複チェック
+			if (userService.findById(userForm.getUserId()) != null)  {
+				result.rejectValue("userId", null , "登録済みのIDです。"); 
+			}
+			
+			// パスワード/パスワード確認の入力チェック
+			Map<String, List<String>> errorMap = userForm.passwordValidate(true);
+			List<String> passwordErrorMsgList = errorMap.get("password") != null? errorMap.get("password"): new ArrayList<String>();
+			List<String> rePasswordErrorMsgList = errorMap.get("rePassword")!= null? errorMap.get("rePassword"): new ArrayList<String>();
+			
+			// パスワードエラーがあればエラーメッセージを設定
+			for(String passwordErrorMsg : passwordErrorMsgList){
+				result.rejectValue("password", null , passwordErrorMsg); 
+			}
+			
+			// パスワード（確認用）にエラーがあればエラーメッセージを設定
+			for(String rePasswordErrorMsg : rePasswordErrorMsgList){
+				result.rejectValue("rePassword", null , rePasswordErrorMsg); 
+			}
+			
+			if(result.hasErrors()){
+				// ロールセレクトボックスのItemを設定
+				model.addAttribute("selectRole", EnumRole.values());
+				return "/user/regist/userRegistInput";
+			}
+					
+		} catch (Exception exception) {
+			logger.error("[@registComfirm]userForm.userId=" + userForm.getUserId() +" errorMessage:" + exception.getMessage());
+			
+			//入力画面に遷移
 			model.addAttribute("selectRole", EnumRole.values());
+			model.addAttribute("userForm", userForm);
+			model.addAttribute("errorMessage", "想定外のエラーが発生しました。<br>操作をやり直してください。");
 			return "/user/regist/userRegistInput";
 		}
-		
+				
 		// ロールの設定
 		model.addAttribute("EnumRole", EnumRole.decode(userForm.getRoleCode()));
 		userForm.setRole(EnumRole.decode(userForm.getRoleCode()).getSName());
@@ -177,20 +195,22 @@ public class UserEditController {
 		user.setUpdateUser(user.getUserId());
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 
-		// DB更新処理 
-		userService.registUser(user);
+		try{
+			// DB更新処理 
+			userService.registUser(user);
 		
-		String nextViewName = userInfo.getStartViewName();
-		sessionStatus.setComplete();
-
-		// 登録／編集判定
-		if(nextViewName.equals("/user/regist/input")){
-			redirectAttributes.addFlashAttribute("message","登録が完了しました");
-			return "redirect:/user/regist/input";
-		}else {
-			redirectAttributes.addFlashAttribute("message","更新が完了しました");
-			return "redirect:/user/userDetail/" + user.getUserId();
+		} catch(RuntimeException exception){
+			logger.error("[@registComplete]userForm.userId=" + form.getUserId() +" errorMessage:" + exception.getMessage());
+			
+			//入力画面に遷移
+			model.addAttribute("selectRole", EnumRole.values());
+			model.addAttribute("userForm", form);
+			model.addAttribute("errorMessage", "想定外のエラーが発生しました。<br>操作をやり直してください。");
+			return "/user/regist/userRegistInput";
 		}
+
+		redirectAttributes.addFlashAttribute("message","登録が完了しました");
+		return "redirect:/user/regist/input";
 		
 	}	
 	
@@ -205,15 +225,26 @@ public class UserEditController {
 	 * @return
 	 */
 	@RequestMapping(value="/user/edit/input/{uid}", method=RequestMethod.GET)
-	public String editInput(@PathVariable("uid") String uid, UserInfo userInfo, Model model){
+	public String editInput(@PathVariable("uid") String uid, UserInfo userInfo, RedirectAttributes redirectAttributes, Model model) throws BussinessException{
 
 		userInfo.setStartViewName("/user/edit/input");
-		
+		UserForm userForm = new UserForm();
+
 		// ユーザー情報取得
 		LoginUser user = userService.findById(uid);
-		
+
+		// 変更対象のユーザーが存在しない場合はエラー
+		if (user == null) {
+			//throw new BussinessException("userIdがDBに存在しません。uid=" + uid);
+			logger.error("[editInput] userIdがDBに存在しません。uid=" + uid);
+			redirectAttributes.addFlashAttribute("errorMessage", "想定外のエラーが発生しました。<br>操作をやり直してください。");
+			// 詳細画面にリダイレクト
+			return "redirect:/user/userDetail/" + uid;
+		}
+
 		ModelMapper modelMapper = new ModelMapper();
-		UserForm userForm = modelMapper.map(user, UserForm.class);
+		userForm = modelMapper.map(user, UserForm.class);
+		
 		// パスワードは非表示
 		userForm.setPassword("");
 		
@@ -250,56 +281,7 @@ public class UserEditController {
 		return "redirect:/user/userDetail/" + userForm.getUserId();
 	}
 	
-	/**
-	 *  変更確認画面
-	 */
-	@RequestMapping(value="/user/edit/confirm", method=RequestMethod.POST, params = "confirm")
-	public String editComfirm(@Validated UserForm userForm,
-			BindingResult result,
-			RedirectAttributes redirectAttributes,
-			Model model) throws Exception{
-
-			// ユーザーIDが変わっていたらエラーとする
-			if(userService.findById(userForm.getUserId()) == null){
-				logger.error("Formから渡されたユーザーIDがDBに存在しません");
-				throw new Exception();
-			}
-
-			// TODO パスワード変更チェックボックスにチェックが入っていた場合はパスワードを変更情報として渡す
-			// TODO 入力画面でエラー発生させ確認画面に遷移して戻るをすると、システムエラー
-			// パスワード/パスワード確認の入力チェック
-			Map<String, List<String>> errorMap = userForm.passwordValidate(userForm.isPassUpdCheck());
-			List<String> passwordErrorMsgList = errorMap.get("password") != null? errorMap.get("password"): new ArrayList<String>();
-			List<String> rePasswordErrorMsgList = errorMap.get("rePassword")!= null? errorMap.get("rePassword"): new ArrayList<String>();
-			
-			// パスワードエラーがあればエラーメッセージを設定
-			for(String passwordErrorMsg : passwordErrorMsgList){
-				result.rejectValue("password", null , passwordErrorMsg); 
-			}
-			
-			// パスワード（確認用）にエラーがあればエラーメッセージを設定
-			for(String rePasswordErrorMsg : rePasswordErrorMsgList){
-				result.rejectValue("rePassword", null , rePasswordErrorMsg); 
-			}
-			
-			if(result.hasErrors()){
-				// ロールセレクトボックスのItemを設定
-				model.addAttribute("selectRole", EnumRole.values());
-				return "/user/edit/userEditInput";
-			}
-			
-			// ロールの設定
-			model.addAttribute("EnumRole", EnumRole.decode(userForm.getRoleCode()));
-			userForm.setRole(EnumRole.decode(userForm.getRoleCode()).getSName());			
-			
-			// ログインユーザー情報取得
-			LoginUser loginUser = commonService.getLoginUser();
-			
-			model.addAttribute("userName", loginUser.getUserName());
-			model.addAttribute("userForm", userForm);
-			
-			return "/user/edit/userEditConfirm";
-	}	
+		
 	/**
 	 *  変更処理
 	 */
@@ -307,16 +289,15 @@ public class UserEditController {
 	public String editComplete(@Validated UserForm userForm, BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes) throws Exception{
 		
-		// 入力値チェック
-		// ユーザーIDが変わっていたらエラーとする
+		// 変更対象のユーザーが存在しない場合はエラー
 		LoginUser userBfUpdate = userService.findById(userForm.getUserId());
 		if(userBfUpdate == null){
-			logger.error("Formから渡されたユーザーIDがDBに存在しません");
-			throw new Exception();
+			logger.error("[editComplete] userIdがDBに存在しません。userForm.getUserId()=" + userForm.getUserId());
+			redirectAttributes.addFlashAttribute("errorMessage", "想定外のエラーが発生しました。<br>操作をやり直してください。");
+			// 詳細画面にリダイレクト
+			return "redirect:/user/userDetail/" + userForm.getUserId();
 		}
 
-		// TODO パスワード変更チェックボックスにチェックが入っていた場合はパスワードを変更情報として渡す
-		// TODO 入力画面でエラー発生させ確認画面に遷移して戻るをすると、システムエラー
 		// パスワード/パスワード確認の入力チェック
 		Map<String, List<String>> errorMap = userForm.passwordValidate(userForm.isPassUpdCheck());
 		List<String> passwordErrorMsgList = errorMap.get("password") != null? errorMap.get("password"): new ArrayList<String>();
@@ -355,10 +336,16 @@ public class UserEditController {
 		
 		// 共通項目の設定
 		LoginUser loginUser = commonService.getLoginUser();
+		user.setRegistUser(userBfUpdate.getRegistUser());
+		//user.setRegistTime(userBfUpdate.getRegistTime());
 		user.setUpdateUser(loginUser.getUserId());
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+		user.setDeleteFlg(userBfUpdate.isDeleteFlg());
 
+		LoginUser testUser = new LoginUser();
+		
 		// DB更新処理 
+		userService.save(user);
 		redirectAttributes.addFlashAttribute("message","更新が完了しました");
 		return "redirect:/user/userDetail/" + user.getUserId();
 		
