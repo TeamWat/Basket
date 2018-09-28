@@ -29,6 +29,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -186,13 +187,11 @@ public class UserEditController {
 		// 共通項目の設定
 		LoginUser loginUser = commonService.getLoginUser();
 		user.setRegistUser(userBfUpdate.getRegistUser());
-		//user.setRegistTime(userBfUpdate.getRegistTime());
+		user.setRegistTime(userBfUpdate.getRegistTime());
 		user.setUpdateUser(loginUser.getUserId());
 		user.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		user.setDeleteFlg(userBfUpdate.isDeleteFlg());
 
-		LoginUser testUser = new LoginUser();
-		
 		// DB更新処理 
 		userService.save(user);
 		redirectAttributes.addFlashAttribute("message","更新が完了しました");
@@ -275,11 +274,6 @@ public class UserEditController {
 				nendoKeys.put(nendo, null);
 			}
 		}
-		
-		// TODO　デバッグコード。後で削除。
-		for (Integer key : nendoKeys.keySet()) {
-			System.out.println(key + ":" + nendoKeys.get(key));
-		}
 			
 		// ユーザー情報取得
 		LoginUser loginUser = commonService.getLoginUser();
@@ -341,6 +335,16 @@ public class UserEditController {
 		model.addAttribute("nendoMembers", nendoMembers);
 		
 		return "/user/usersMember";
+	}
+	
+	@ExceptionHandler(RuntimeException.class)
+	public String handleRuntimeException(RuntimeException exception, RedirectAttributes redirectAttributes) {
+		
+		logger.error("RuntimeExceptionHandler", exception);
+	    redirectAttributes.addFlashAttribute("errorMessage","想定外のエラーが発生しました。<br>操作をやり直してください。");
+	    
+		//ユーザー一覧に遷移
+		return "redirect:/user";
 	}
 	
 }

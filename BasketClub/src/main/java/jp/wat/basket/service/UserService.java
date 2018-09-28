@@ -35,10 +35,16 @@ public class UserService {
 	@Autowired
 	private UserMemberRepository userMemberRepository;
 	
-	public List<UserViewModel> getAllUser(){
+	public List<UserViewModel> getUserList(String role){
 		
 		// 有効なメンバー情報を取得する
-		List<LoginUser> userList = repository.findAllUser();
+		// 管理者ロールがない場合は管理者データの取得は不可とする
+		List<LoginUser> userList = new ArrayList<LoginUser>();
+		if (role.equals("ROLE_ADMIN")) {
+			userList = repository.findAllUser();
+		} else {
+			userList = repository.findUserNotIncludeAdmin();
+		}
 		
 		List<UserViewModel> userViewModelList = new ArrayList<UserViewModel>();
 		ModelMapper modelMapper = new ModelMapper();

@@ -24,10 +24,9 @@ public class UserController {
 	@RequestMapping("/user")
 	public String index(Model model){
 	
-		List<UserViewModel> userList = userService.getAllUser();
-		
 		// ログインユーザー情報取得
 		LoginUser loginUser = commonService.getLoginUser();
+		List<UserViewModel> userList = userService.getUserList(loginUser.getRole());
 		
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("userList", userList);
