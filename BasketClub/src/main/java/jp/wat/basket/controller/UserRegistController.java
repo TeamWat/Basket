@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -67,7 +68,7 @@ public class UserRegistController {
 	 * @return
 	 */
 	@RequestMapping(value="/user/regist/input", method=RequestMethod.GET)
-	public String registInput(UserInfo userInfo, Model model){
+	public String registInput(UserInfo userInfo, ModelMap model){
 					
 		// セレクトボックスのItemを取得（チーム区分、学年、ロール）
 		model.addAttribute("selectTeam", EnumTeamKubun.values());
@@ -78,7 +79,12 @@ public class UserRegistController {
 		LoginUser loginUser = commonService.getLoginUser();
 		
 		model.addAttribute("userName", loginUser.getUserName());
-		model.addAttribute("userForm", new UserForm());
+		
+		// 確認画面で修正ボタンを押下してリダイレクトしてきた時はフォームの入力内容（userForm）が Modelオブジェクトに設定されている
+		// 初期画面表示時はuserFormは設定されていないため新規作成する
+		UserForm userForm = model.containsKey("userForm")? (UserForm) model.get("userForm") : new UserForm();
+		
+		model.addAttribute("userForm", userForm);
 		
 		return "/user/regist/userRegistInput";
 	}
@@ -157,7 +163,7 @@ public class UserRegistController {
 	 * @param redirectAttributes
 	 * @return
 	 */
-	@RequestMapping(value={"/user/regist/transactfinish"}, method=RequestMethod.POST, params="submit")
+	@RequestMapping(value={"/user/regist/transactfinish"}, method=RequestMethod.POST)
 	public String registComplete(@Validated UserForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes){
 
@@ -192,6 +198,17 @@ public class UserRegistController {
 		redirectAttributes.addFlashAttribute("message","登録が完了しました");
 		return "redirect:/user/regist/input";
 		
+	}
+	
+	/**
+	 *  登録確認画面　キャンセル
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/user/regist/registCancel", method = RequestMethod.POST)
+	public String registCorrect(UserForm userForm, Model model, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("userForm", userForm);
+		return "redirect:/user/regist/input";
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
