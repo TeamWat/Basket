@@ -19,6 +19,12 @@ public interface LoginUserRepository extends JpaRepository<LoginUser, Integer> {
 	public List<LoginUser> findAllUser();
 
 	/**
+	 * 管理者ユーザーを除くユーザー情報を取得する
+	*/
+	@Query(value="select m from LoginUser m where role <> 'ROLE_ADMIN'")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
+	public List<LoginUser> findUserNotIncludeAdmin();
+
+	/**
 	 * ユーザーIDをキーにユーザー情報を取得する
 	 * DeleteFlg は　'0'（削除されていない）
 	*/

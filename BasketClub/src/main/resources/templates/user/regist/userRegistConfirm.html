@@ -32,7 +32,7 @@ p.msg {
 					<div class="tim-title">
 						<h2 th:text="ユーザー登録確認"></h2>
 					</div>
-					<form method="post" th:action="transactfinish" th:object="${userForm}">
+					<form method="post" th:action="transactfinish" th:object="${userForm}" th:name="registForm">
 					<div>
 						<table class="table table-bordered"
 							th:object="${userForm}">
@@ -76,10 +76,10 @@ p.msg {
                  	</div>
 					<div class="row submit-btn-parents">
 						<div>
-							<input type="button" class="btn btn-primary btn-mgin-pd-03" onclick="history.back();" value="修正する"/>
+							<input type="button" class="btn btn-primary btn-mgin-pd-03" onClick="registCancel();" value="修正する"/>
 						</div>
 						<div>
-							<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="submit" value="登録する" />
+							<input type="button" class="btn btn-primary btn-mgin-pd-03" onClick="registSubmit();" value="登録する" />
 						</div>
 					</div>
 					</form>
@@ -110,6 +110,18 @@ $(document).ready( function() {
 		flashMessage($message, "success");	
 	}
 });
+
+// 修正するボタン押下時処理
+function registCancel(){
+    document.registForm.action = 'registCancel';
+    document.registForm.submit();
+}
+
+// 登録するボタン押下時処理
+function registSubmit(){
+    document.registForm.action = 'transactfinish';
+    document.registForm.submit();
+}
 
 </script>
 

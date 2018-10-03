@@ -5,8 +5,6 @@ import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.framework.security.AccountUserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,7 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         // ユーザー情報が取得できたらSpring Securityで認証できる形で戻す
-        return new AccountUserDetails(user);
+        // return new AccountUserDetails(user);
+        return new AccountUserDetails(user, user.getRole());
 	}
 
 }

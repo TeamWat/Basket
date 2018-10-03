@@ -50,8 +50,8 @@
                                    <ul>
                                        <li class="btm-border" th:text="|${userName} さん こんにちは|">高橋さん こんにちは</li>
                                        <li class="link"><a href="">個人設定</a></li>
-                                       <li class="link"><a href="">チーム設定（役員専用）</a></li>
-                                       <li class="link btm-border"><a href="/user">利用者設定（役員専用）</a></li>
+                                       <li class="link" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')"><a href="">チーム設定（役員専用）</a></li>
+                                       <li class="link btm-border" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')"><a href="/user">利用者設定（役員専用）</a></li>
                                        <li class="link"><a  rel="tooltip" title="Follow us on Instagram" data-placement="bottom" href="/logout">ログアウト</a></li>
                                     
                                    </ul>

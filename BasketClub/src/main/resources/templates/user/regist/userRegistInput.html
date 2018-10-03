@@ -1,5 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 <head>
@@ -29,6 +30,8 @@ p.msg {
 			<div class="section section-buttons">
 				<div class="container">
 					<div class="" role="alert" th:id="flash-message" th:if="${message}" th:text="${message}"></div>
+					<div class="alert alert-error" role="alert" th:id="flash-err-message" th:if="${errorMessage}" th:text="${errorMessage}">フラッシュエラーメッセージ</div>
+					
 					<div class="tim-title">
 						<h2 th:text="ユーザー登録"></h2>
 					</div>
@@ -84,7 +87,12 @@ p.msg {
 								<label class="control-label">権限</label>
 								<select class="form-control" th:classappend="${#fields.hasErrors('roleCode')}? has-error" th:field="*{roleCode}">
 								<option value="">---</option>
-              					<option th:each="item : ${selectRole}" th:value="${item.code}" th:text="${item.name}" th:selected="${item.code}" th:field="*{roleCode}"></option>
+								<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')"> 
+              						<option th:each="item : ${selectRole}" th:value="${item.code}" th:text="${item.name}" th:selected="${item.code}" th:field="*{roleCode}"></option>
+								</th:block>
+								<th:block sec:authorize="hasAnyRole('ROLE_OFFICER')">　<!-- 役員は管理者ロールを付与できない -->
+									<option th:each="item : ${selectRole}" th:value="${item.code}" th:text="${item.name}" th:if="${item.name !='管理者'}" th:selected="${item.code}" th:field="*{roleCode}"></option>
+								</th:block>
 								</select>
 								<span class="text-danger" th:if="${#fields.hasErrors('roleCode')}" th:errors="*{roleCode}"></span>
 							</div>
@@ -134,6 +142,11 @@ $(document).ready( function() {
 	
 	if ($message != null && $message != "") {
 		flashMessage($message, "success");	
+	}
+	
+	$errMessage = $('#flash-err-message').text();
+	if ($errMessage != null && $errMessage != "") {
+		flashMessage($errMessage, "error");	
 	}
 });
 
