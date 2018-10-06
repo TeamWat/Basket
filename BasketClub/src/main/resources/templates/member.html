@@ -31,8 +31,24 @@ p.msg {
 				<div class="container">
 					<div class="" role="alert" th:id="flash-message"  th:text="${message}"></div>
 					<div class="tim-title">
-						<h2>メンバー情報一覧</h2>
+						<div class="label-btn">
+							<div>
+								<h2 class="title">メンバー情報一覧</h2>
+							</div>
+							<div>
+								<h3 class="title"></h3>
+							</div>
+							<div class="btn-group">
+								<a th:each="nendo: ${nendoList}" 
+								class="btn btn-link" 
+								th:classappend="${nendo}==${selectedNendo} ? 'member-nendo-selected' : 'member-nendo'"
+								th:href="@{/member?nendo=} + ${nendo}" 
+								th:name="select + ${nendo}" th:text="@{${nendo} + '年度'}">
+								</a>
+							</div>
+						</div>
 					</div>
+					
 					<div class="tim-title label-btn">
 						<div class="label-btn">
 							<div>
@@ -43,6 +59,9 @@ p.msg {
 							 	<button class="changeTeam" type="button" th:name="selectall">ALL</button>
 							 	<button class="changeTeam" type="button" th:name="selectyabedan">ヤベダン</button>
 							</div>
+							<div>
+								<h3 class="title"></h3>
+							</div>
 						</div>
 						<div>
 							<a href="/member/regist/input" class="btn btn-info">新規メンバー登録</a>
@@ -52,7 +71,7 @@ p.msg {
 						<table class="table table-hover ">
 							<thead>
 								<tr>
-									<th class="wid4">チーム</th>
+									<th class="wid9">チーム</th>
 									<th>背番号</th>
 									<th>名前</th>
 									<th>学年</th>

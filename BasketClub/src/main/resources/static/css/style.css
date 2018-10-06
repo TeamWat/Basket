@@ -179,3 +179,17 @@ tr#templete {
 .checkbox-margin {
 	margin-left: 10px;
 }
+
+.member-nendo {
+	padding-right: 8px;
+	color: #c6c6c6!important;
+    font-size: 17px;
+    
+    !important;
+}
+
+.member-nendo-selected {
+	padding-right: 8px;
+	color: #464646 !important;
+	font-size: 17px;
+}
