@@ -1,5 +1,6 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 <head>
@@ -64,7 +65,7 @@ p.msg {
 							</div>
 						</div>
 						<div>
-							<a href="/member/regist/input" class="btn btn-info">新規メンバー登録</a>
+							<a href="/member/regist/input" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info">新規メンバー登録</a>
 						</div>
 					</div>
 					<div class="row">
@@ -90,8 +91,8 @@ p.msg {
 									<td th:text="${member.memberName}" class="vertical-min wid30"></td>
 									<td th:text="${member.grade}" class="vertical-min"></td>
 									<td class="vertical-min">
-									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
-									  <a th:href="@{'member/delete/confirm/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
+									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
+									  <a th:href="@{'member/delete/confirm/' + ${member.memberId}}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
 									</td>
 								</tr>
 							</tbody>
