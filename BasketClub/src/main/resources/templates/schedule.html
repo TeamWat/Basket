@@ -62,7 +62,7 @@ p.msg {
 							<h3 th:text="|${month}月 スケジュール|"></h3>
 						</div>
 						<div>
-							<a th:href="@{'schedule/edit/' + ${month}}" class="btn btn-info btn-mgin-pd-03">スケジュール編集</a>
+							<a th:href="@{'schedule/edit/' + ${month}}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info btn-mgin-pd-03">スケジュール編集</a>
 						</div>
 					</div>
 					<div class="row">

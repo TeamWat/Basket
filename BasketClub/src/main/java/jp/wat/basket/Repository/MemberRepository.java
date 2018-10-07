@@ -21,7 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	*/
 	@Query(value="select m from Member m where deleteFlg = '0' order by nendo, teamKubun, no")	    // @Queryの標準の書き方（エンティティクラス名 エンティティクラスのカラム名を使用）
 	public List<Member> findAllMember();
-
+	
 	/**
 	 * メンバーIDをキーにメンバー情報を取得する
 	*/
@@ -38,13 +38,13 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	 * メンバーが存在する年度を全て取得する
 	 * 重複を排除して返却する
 	*/
-	@Query(value="select distinct m.nendo from Member m where deleteFlg = '0' order by nendo asc")	
+	@Query(value="select distinct m.nendo from Member m where deleteFlg = '0' order by nendo, teamKubun, no")	
 	public List<Integer> getNendoList();
 
 	/**
 	 * 年度をキーにメンバーを取得する
 	*/
-	@Query(value="select m from Member m where nendo = :nendo and deleteFlg = '0' order by no asc")	
+	@Query(value="select m from Member m where nendo = :nendo and deleteFlg = '0' order by nendo, teamKubun, no")	
 	public List<Member> findByNendo(Integer nendo);
 	
 }

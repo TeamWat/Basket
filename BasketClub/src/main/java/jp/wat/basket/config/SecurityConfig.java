@@ -45,9 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         // 認可の設定（ROLEは SpringSecurityがROLE_ をつけてチェックをする仕様のため「ROLE_」を除去した値を設定）
         http.authorizeRequests()
-            .antMatchers("/", "/index").permitAll() // indexは全ユーザーアクセス許可
-            .antMatchers("/user*", "/user/*").hasAnyRole("OFFICER", "ADMIN") // 利用者設定
-            .antMatchers("/*").hasAnyRole("PUBLIC", "OFFICER", "ADMIN") // 上記以外はROLEがないとアクセス不可
+            .antMatchers(
+            		"/",
+            		"/index"
+            		).permitAll() // indexは全ユーザーアクセス許可
+            		
+            .antMatchers(
+            		"/user**",
+            		"/user/**",
+            		"/member/regist/**",
+            		"/member/edit/**",
+            		"/schedule/edit/**"
+            		).hasAnyRole("OFFICER", "ADMIN") // 利用者設定
+            		
+            .antMatchers("/top",
+            		"/member",
+            		"/schedule**",
+            		"/info**"
+            		).hasAnyRole("PUBLIC", "OFFICER", "ADMIN") // 上記以外はROLEがないとアクセス不可
+
             .anyRequest().authenticated();
 
         // ログイン設定

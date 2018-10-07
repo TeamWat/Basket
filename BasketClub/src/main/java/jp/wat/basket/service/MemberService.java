@@ -35,9 +35,10 @@ public class MemberService {
 	private UserMemberRepository userMemberRepository;
 	
 	
-	public List<MemberViewModel> getAllMember(){
+	public List<MemberViewModel> getMemberByNendo(Integer nendo){
+		
 		// 有効なメンバー情報を取得する
-		List<Member> memberList = repository.findAllMember();
+		List<Member> memberList = repository.findByNendo(nendo);
 		
 		List<MemberViewModel> memberViewModelList = new ArrayList<MemberViewModel>();
 		ModelMapper modelMapper = new ModelMapper();

@@ -1,6 +1,11 @@
 @CHARSET "UTF-8";
 
 
+button:focus {
+    outline: 1px dotted;
+    /* outline: 5px auto -webkit-focus-ring-color; */
+}
+
 /*---------------------------------
   paper-kit.css カスタマイズ　start  
 -----------------------------------*/
@@ -56,6 +61,10 @@ div.label-btn {
   display: -ms-flex;
   display: -o-flex;
   display: flex;
+}
+
+h2.title {
+  margin-top:0;
 }
 
 h3.title {
