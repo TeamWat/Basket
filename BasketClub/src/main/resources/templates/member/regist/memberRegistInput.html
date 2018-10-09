@@ -35,7 +35,7 @@ p.msg {
 					<form th:method="post" th:action="confirm" th:object="${memberForm}">
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('nendo')}? has-error">
+							<div class="form-group">
 								<label class="control-label">対象年度</label>
 								<select class="form-control" th:field="*{nendo}">
 								<option th:value="2018" th:text="2018"></option>
@@ -47,7 +47,7 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('teamKubun')}? has-error">
+							<div class="form-group">
 								<label class="control-label">チーム</label>
 								<select class="form-control" th:field="*{teamKubun}">
 								<option value="">---</option>
@@ -59,7 +59,7 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('no')}? has-error">
+							<div class="form-group">
 								<label class="control-label">背番号</label>
 								<select class="form-control" th:field="*{no}">
 								<option value="">---</option>
@@ -71,7 +71,7 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('memberName')}? has-error">
+							<div class="form-group">
 								<label class="control-label">名前</label>
 								<input type="text" class="form-control" th:field="*{memberName}">
 								<span class="text-danger" th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}"></span>
@@ -80,7 +80,7 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('memberNameKn')}? has-error">
+							<div class="form-group">
 								<label class="control-label">名前（カナ）</label>
 								<input type="text" class="form-control" th:field="*{memberNameKn}">
 								<span class="text-danger" th:if="${#fields.hasErrors('memberNameKn')}" th:errors="*{memberNameKn}"></span>
@@ -89,7 +89,7 @@ p.msg {
 					</div>
 					<div class="row">
 						<div class="col-sm-3">
-							<div class="form-group" th:classappend="${#fields.hasErrors('grade')}? has-error">
+							<div class="form-group">
 								<label class="control-label">学年</label>
 								<select class="form-control" th:field="*{grade}">
 								<option value="">---</option>

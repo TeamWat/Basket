@@ -29,9 +29,9 @@ p.msg {
 			<div class="section section-buttons">
 				<div class="container">
 					<div class="tim-title">
-					    <h2 th:text="${session.userInfo.startViewName}=='/member/edit'? 'メンバー編集確認': 'メンバー登録確認'"></h2>
+					    <h2 th:text="メンバー登録確認"></h2>
 					</div>
-					<form method="post" th:action="transactfinish" th:object="${memberForm}">
+					<form method="post" th:action="transactfinish" th:object="${memberForm}" th:name="registForm">
 						<div class="row">
 
 							<table class="table table-bordered"
@@ -75,11 +75,11 @@ p.msg {
 						<div>
 							<div class="row submit-btn-parents">
 								<div>
-									<input type="button" class="btn btn-primary btn-mgin-pd-03" onclick="history.back();" value="修正する"/>
+									<input type="button" class="btn btn-primary btn-mgin-pd-03" onClick="registCancel();" value="修正する"/>
 								</div>
 								<div>
 									<input type="hidden" th:field="*{memberId}" th:value="${memberId}" />
-									<input type="submit" class="btn btn-primary btn-mgin-pd-03" name="submit" value="登録する" />
+									<input type="button" class="btn btn-primary btn-mgin-pd-03" onClick="registSubmit();" value="登録する" />
 								</div>
 							</div>
 						</div>
@@ -104,4 +104,27 @@ p.msg {
 <!--  Paper Kit Initialization snd functons -->
 <!--  <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script> -->
 
+<script type="text/javascript">
+$(document).ready( function() {
+	
+	$message = $('#flash-message').text();
+	
+	if ($message != null && $message != "") {
+		flashMessage($message, "success");	
+	}
+});
+
+// 修正するボタン押下時処理
+function registCancel(){
+    document.registForm.action = 'registCancel';
+    document.registForm.submit();
+}
+
+// 登録するボタン押下時処理
+function registSubmit(){
+    document.registForm.action = 'transactfinish';
+    document.registForm.submit();
+}
+
+</script>
 </html>
