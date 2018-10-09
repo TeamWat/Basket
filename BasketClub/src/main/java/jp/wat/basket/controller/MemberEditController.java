@@ -201,6 +201,38 @@ public class MemberEditController {
 		return "redirect:/member";
 	}
 	
+	/////////////////////////////////////////////////////////
+	// メンバー詳細設定
+	/////////////////////////////////////////////////////////
+	
+	/**
+	 *  メンバー詳細画面　表示
+	 * @param mid
+	 * @param userInfo
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="/member/memberDetail/{mid}", method=RequestMethod.GET)
+	public String registDetailInput(@PathVariable("mid") String mid, UserInfo userInfo, Model model){
+		
+		//変更前情報取得
+		Member member = memberService.findById(Integer.parseInt(mid));
+		ModelMapper modelMapper = new ModelMapper();
+		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
+
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
+		model.addAttribute("EnumGrade", EnumGrade.decode(befMemberForm.getGrade()));
+		model.addAttribute("EnumSebango", EnumSebango.decode(befMemberForm.getNo()));
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
+		model.addAttribute("memberForm", befMemberForm);
+		
+		return "/member/memberDetail";
+	}
+	
 	/*
 	 * MemberForm オブジェクトの内容をlogに出力する
 	 */
