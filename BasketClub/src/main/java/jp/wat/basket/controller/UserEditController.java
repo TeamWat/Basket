@@ -212,7 +212,7 @@ public class UserEditController {
 			// ユーザー情報および紐づく情報を削除する
 			userService.deleteUser(userForm.getUserId());
 		
-		} catch(Exception e) {
+		} catch(RuntimeException e) {
 			logger.error("ユーザーの削除に失敗しました（ユーザーID: " + userForm.getUserId() + ")");
 			redirectAttributes.addFlashAttribute("errorMessage","ユーザーの削除ができませんでした");
 			return "redirect:/user/userDetail/" + userForm.getUserId();

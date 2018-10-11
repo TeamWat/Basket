@@ -87,10 +87,10 @@ public class UserService {
 	 * ユーザーIDをキーにユーザー情報および関連するユーザー情報を削除する
 	 * @param userId
 	 * @return
-	 * @throws Exception 
+	 * @throws RuntimeException 
 	 */
 	@Transactional
-	public void deleteUser(String userId) throws Exception{
+	public void deleteUser(String userId) throws RuntimeException{
 		
 		try {
 			// 紐づくユーザー年度情報を削除する
