@@ -77,9 +77,9 @@ p.msg {
 			</div>
 		</div>
 		<div>
-		<form th:action="@{/member/delete/transactfinish}" th:id="memerdelete" th:class="none" th:method="POST" th:object="${memberForm}">
+		<form th:action="@{/member/delete/transactfinish}" th:id="memberdelete" th:class="none" th:method="POST" th:object="${memberForm}">
 			<input type="hidden" th:name="memberId" th:value="${memberForm.memberId}">
-			<input type="submit" id="deleteSubmitBtn">
+			<input type="submit" id="deletelbtn">
 		</form>
 		</div>
 	</div>
@@ -94,7 +94,7 @@ p.msg {
 <script src="/sweetalert/js/sweetalert2.min.js" type="text/javascript"></script>
 <script src="/js/common.js" type="text/javascript" ></script>
 <script src="/js/member.js" type="text/javascript" ></script>
-<script src="/js/useredit.js" type="text/javascript" ></script>
+<script src="/js/memberedit.js" type="text/javascript" ></script>
 
 <!-- Plugin for Switches -->
 <script src="/bootstrap/assets/js/bootstrap-switch.min.js"></script>
@@ -104,7 +104,6 @@ p.msg {
 
 <!--  Paper Kit Initialization snd functons -->
 <script src="/bootstrap/assets/js/paper-kit.js?v=2.0.1"></script>
-<script src="/js/user.js"></script>
 <script type="text/javascript">
 
 $(document).ready( function() {

@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +47,10 @@ public class MemberEditController {
 	@Autowired
 	CommonService commonService;
 	
-	/********************************************************
-	 * メンバー変更
-	 *******************************************************/
+	/////////////////////////////////////////////////////////
+	// メンバー情報変更
+	/////////////////////////////////////////////////////////
+	
 	// 変更画面　表示
 	@RequestMapping(value="/member/edit/input/{mid}", method=RequestMethod.GET)
 	public String memberEdit(@PathVariable("mid") Integer mid, UserInfo userInfo,  Model model){
@@ -73,52 +76,17 @@ public class MemberEditController {
 		
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", befMemberForm);
-		return "/member/edit/editInput";
+		return "/member/edit/memberEditInput";
 	}
 	
 	// 変更画面　キャンセル
 	@RequestMapping(value = {"/member/edit/confirm"}, method = RequestMethod.POST, params = "cancel")
-	public String editCancel(Model model) {
-		return "redirect:/member";
+	public String editCancel(MemberForm memberForm, Model model) {
+		return "redirect:/member/memberDetail/" + memberForm.getMemberId();
 	}
-	
-	// 変更確認画面　表示
-	@RequestMapping(value = {"/member/edit/confirm"}, method = RequestMethod.POST, params = "confirm")
-	public String editConfirm(
-			@Validated MemberForm memberForm,
-			BindingResult result,
-			Model model) {
-					
-		//変更前情報取得
-		Member member = memberService.findById(memberForm.getMemberId());
-		ModelMapper modelMapper = new ModelMapper();
 		
-		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
-		
-		//TODO バリデーションチェック
-		
-		// 変更前用のEnumを取得（チーム区分、学年、背番号）
-		model.addAttribute("befEnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
-		model.addAttribute("befEnumGrade", EnumGrade.decode(befMemberForm.getGrade()));
-		model.addAttribute("befEnumNo", EnumSebango.decode(befMemberForm.getNo()));
-		
-		// 変更後用のEnumを取得（チーム区分、学年、背番号）
-		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
-		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
-		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
-		
-		// ユーザー情報取得
-		LoginUser loginUser = commonService.getLoginUser();
-		
-		model.addAttribute("userName", loginUser.getUserName());
-		model.addAttribute("befMemberF", befMemberForm);
-		model.addAttribute("memberForm", memberForm);
-		
-		return "/member/edit/editConfirm";
-	}
-	
 	// 変更処理
-	@RequestMapping(value={"/member/edit/transactfinish"}, method=RequestMethod.POST, params="submit")
+	@RequestMapping(value={"/member/edit/transactfinish"}, method=RequestMethod.POST)
 	public String registComplete(@Validated MemberForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes){
 
@@ -143,59 +111,35 @@ public class MemberEditController {
 		return "redirect:/member";
 	}	
 	
-	// ブラウザバック対策
-	@RequestMapping(value={"/member/edit/confirm"}, method=RequestMethod.GET)
-	public String registConfirmBack(Model model){
-		return "redirect:/member";
+	/**
+	 *  変更確認画面　キャンセル
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/member/edit/editCancel", method = RequestMethod.POST)
+	public String registCorrect(MemberForm memberForm, Model model, RedirectAttributes redirectAttributes) {
+		redirectAttributes.addFlashAttribute("memberForm", memberForm);
+		return "redirect:/member/edit/input";
 	}
-	
-	/********************************************************
-	 * メンバー削除
-	 *******************************************************/
-	// 削除確認画面　表示
-	@RequestMapping(value = {"/member/delete/confirm/{mid}"}, method = RequestMethod.GET)
-	public String deleteConfirm(@PathVariable("mid") Integer mid, Model model) {
-					
-		//登録情報取得
-		Member member = memberService.findById(mid);
-		ModelMapper modelMapper = new ModelMapper();
-		MemberForm memberForm = modelMapper.map(member, MemberForm.class);
-		
-		//TODO バリデーションチェック
-		
-		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
-		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
-		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
-		
-		// ユーザー情報取得
-		LoginUser loginUser = commonService.getLoginUser();
-		
-		model.addAttribute("userName", loginUser.getUserName());
-		model.addAttribute("memberForm", memberForm);
-		
-		return "/member/delete/deleteConfirm";
-	}
-	
-	// 削除完了画面
-	@RequestMapping(value={"/member/delete/transactfinish"}, method=RequestMethod.POST, params="submit")
-	public String deleteComplete(@Validated MemberForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model, RedirectAttributes redirectAttributes){
 
-		ModelMapper modelMapper = new ModelMapper();
-		Member member = modelMapper.map(form, Member.class);
-		
-		// 共通項目の設定
-		LoginUser loginUser = commonService.getLoginUser();
-		member.setDeleteFlg(0);
-		member.setRegistUser(loginUser.getUserId());
-		member.setRegistTime(new Timestamp(System.currentTimeMillis()));
-		member.setUpdateUser(loginUser.getUserId());
-		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-		
-		// DB更新処理 
-		memberService.deleteMember(member);
-		
-		String nextViewName = userInfo.getStartViewName();
-		sessionStatus.setComplete();
+
+	/////////////////////////////////////////////////////////
+	// メンバー情報削除
+	/////////////////////////////////////////////////////////
+	
+	// メンバー情報削除
+	@RequestMapping(value={"/member/delete/transactfinish"}, method=RequestMethod.POST)
+	public String deleteComplete(MemberForm form, UserInfo userInfo, Model model, RedirectAttributes redirectAttributes){
+
+		try {
+			ModelMapper modelMapper = new ModelMapper();
+			Member member = modelMapper.map(form, Member.class);
+			memberService.deleteMember(member);
+		} catch (RuntimeException e) {
+			logger.error("メンバーの削除に失敗しました（メンバーID: " + form.getMemberId() + ")");
+			redirectAttributes.addFlashAttribute("errorMessage", "ユーザーの削除ができませんでした");
+			return "redirect:/member/memberDetail/" + form.getMemberId();
+		}
 		
 		redirectAttributes.addFlashAttribute("message","削除が完了しました");
 		return "redirect:/member";
@@ -231,6 +175,17 @@ public class MemberEditController {
 		model.addAttribute("memberForm", befMemberForm);
 		
 		return "/member/memberDetail";
+	}
+	
+	
+	@ExceptionHandler(RuntimeException.class)
+	public String handleRuntimeException(RuntimeException exception, RedirectAttributes redirectAttributes) {
+		
+		logger.error("RuntimeExceptionHandler", exception);
+	    redirectAttributes.addFlashAttribute("errorMessage","想定外のエラーが発生しました。<br>操作をやり直してください。");
+	    
+		//メンバー一覧に遷移
+		return "redirect:/member";
 	}
 	
 	/*
