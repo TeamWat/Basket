@@ -91,8 +91,7 @@ p.msg {
 									<td th:text="${member.memberName}" class="vertical-min wid30"></td>
 									<td th:text="${member.grade}" class="vertical-min"></td>
 									<td class="vertical-min">
-									  <a th:href="@{'member/edit/input/' + ${member.memberId}}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info btn-mgin-pd-01 btn-hidden">編集</a>
-									  <a th:href="@{'member/delete/confirm/' + ${member.memberId}}" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_OFFICER')" class="btn btn-info btn-mgin-pd-01 btn-hidden">削除</a>
+									  <a th:href="@{'member/memberDetail/' + ${member.memberId}}" class="btn btn-info btn-mgin-pd-01 btn-hidden">詳細</a>
 									</td>
 								</tr>
 							</tbody>

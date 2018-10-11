@@ -8,6 +8,7 @@ import jp.wat.basket.common.Enum.EnumTeamKubun;
 import jp.wat.basket.entity.LoginUser;
 import jp.wat.basket.entity.Member;
 import jp.wat.basket.form.MemberForm;
+import jp.wat.basket.form.UserForm;
 import jp.wat.basket.service.CommonService;
 import jp.wat.basket.service.MemberService;
 
@@ -33,8 +34,8 @@ import org.slf4j.LoggerFactory;
 @Controller
 @SessionAttributes(value={"userInfo"})
 @EnableWebSecurity
-public class MemberEditController {
-	private static final Logger logger = LoggerFactory.getLogger(MemberEditController.class);
+public class MemberRegistController {
+	private static final Logger logger = LoggerFactory.getLogger(MemberRegistController.class);
 	
 	@ModelAttribute("userInfo")
 	UserInfo userInfo() {
@@ -46,25 +47,12 @@ public class MemberEditController {
 	
 	@Autowired
 	CommonService commonService;
-	
-	/////////////////////////////////////////////////////////
-	// メンバー情報変更
-	/////////////////////////////////////////////////////////
-	
-	// 変更画面　表示
-	@RequestMapping(value="/member/edit/input/{mid}", method=RequestMethod.GET)
-	public String memberEdit(@PathVariable("mid") Integer mid, UserInfo userInfo,  Model model){
-		
-		//セッションに遷移元画面を格納
-		userInfo.setStartViewName("/member/edit/input");
-		
-		//変更前情報取得
-		Member member = memberService.findById(mid);
-		ModelMapper modelMapper = new ModelMapper();
-		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
 
-		model.addAttribute("EnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
-		model.addAttribute("EnumSebango", EnumSebango.decode(befMemberForm.getNo()));
+	// 登録画面　表示
+	@RequestMapping(value="/member/regist/input", method=RequestMethod.GET)
+	public String registInput(UserInfo userInfo, ModelMap model){
+	
+		userInfo.setStartViewName("/member/regist/input");
 		
 		// セレクトボックスのItemを取得（チーム区分、学年、背番号）
 		model.addAttribute("selectTeam", EnumTeamKubun.values());
@@ -74,19 +62,56 @@ public class MemberEditController {
 		// ユーザー情報取得
 		LoginUser loginUser = commonService.getLoginUser();
 		
+		// 確認画面で修正ボタンを押下してリダイレクトしてきた時はフォームの入力内容（memberForm）が Modelオブジェクトに設定されている
+		// 初期画面表示時はuserFormは設定されていないため新規作成する
+		MemberForm memberForm = model.containsKey("memberForm")? (MemberForm) model.get("memberForm") : new MemberForm();
+		
 		model.addAttribute("userName", loginUser.getUserName());
-		model.addAttribute("memberForm", befMemberForm);
-		return "/member/edit/memberEditInput";
+		model.addAttribute("memberForm", memberForm);
+		
+		return "/member/regist/memberRegistInput";
 	}
 	
-	// 変更画面　キャンセル
-	@RequestMapping(value = {"/member/edit/confirm"}, method = RequestMethod.POST, params = "cancel")
-	public String editCancel(MemberForm memberForm, Model model) {
-		return "redirect:/member/memberDetail/" + memberForm.getMemberId();
+	// 登録画面　キャンセル
+	@RequestMapping(value = "/member/regist/confirm", method = RequestMethod.POST, params = "cancel")
+	public String registCancel(Model model) {
+		return "redirect:/member";
 	}
+	
+	// 登録確認画面　表示
+	@RequestMapping(value = "/member/regist/confirm", method = RequestMethod.POST, params = "confirm")
+	public String registConfirm(
+			@Validated MemberForm memberForm,
+			BindingResult result,
+			Model model) {
+
+		loggerInfoMemberForm(memberForm);
 		
-	// 変更処理
-	@RequestMapping(value={"/member/edit/transactfinish"}, method=RequestMethod.POST)
+		if(result.hasErrors()){
+			//TODO URLが変わってしまい、キャンセルボタンでエラーが発生する
+			model.addAttribute("selectTeam", EnumTeamKubun.values());
+			model.addAttribute("selectGrade", EnumGrade.values());
+			model.addAttribute("selectNo", EnumSebango.values());
+			return "/member/regist/memberRegistInput";
+		}
+		
+		//TODO 変更時の変更有無チェック
+		//TODO Formに変更有無を追加して、チェック結果を格納
+		
+		model.addAttribute("EnumTeam", EnumTeamKubun.decode(memberForm.getTeamKubun()));
+		model.addAttribute("EnumGrade", EnumGrade.decode(memberForm.getGrade()));
+		model.addAttribute("EnumNo", EnumSebango.decode(memberForm.getNo()));
+		
+		// ユーザー情報取得
+		LoginUser loginUser = commonService.getLoginUser();
+		
+		model.addAttribute("userName", loginUser.getUserName());
+		model.addAttribute("memberForm", memberForm);
+		return "/member/regist/memberRegistConfirm";
+	}
+	
+	// 登録処理
+	@RequestMapping(value={"/member/regist/transactfinish"}, method=RequestMethod.POST)
 	public String registComplete(@Validated MemberForm form, UserInfo userInfo,BindingResult result, SessionStatus sessionStatus, Model model,
 			RedirectAttributes redirectAttributes){
 
@@ -101,82 +126,33 @@ public class MemberEditController {
 		member.setUpdateUser(loginUser.getUserId());
 		member.setUpdateTime(new Timestamp(System.currentTimeMillis()));
 		
-		logger.info("[member更新]");
+		logger.info("[member登録]");
 		loggerInfoMember(member);
 
 		// DB更新処理 
 		memberService.registMember(member);
 		
-		redirectAttributes.addFlashAttribute("message","更新が完了しました");
-		return "redirect:/member";
+		// 登録
+		redirectAttributes.addFlashAttribute("message","登録が完了しました");
+		return "redirect:/member/regist/input";
 	}	
+
+	// ブラウザバック対策
+	@RequestMapping(value={"/member/confirm"}, method=RequestMethod.GET)
+	public String registConfirmBack(Model model){
+		return "redirect:/member";
+	}
 	
 	/**
-	 *  変更確認画面　キャンセル
+	 *  登録確認画面　キャンセル
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/member/edit/editCancel", method = RequestMethod.POST)
+	@RequestMapping(value = "/member/regist/registCancel", method = RequestMethod.POST)
 	public String registCorrect(MemberForm memberForm, Model model, RedirectAttributes redirectAttributes) {
 		redirectAttributes.addFlashAttribute("memberForm", memberForm);
-		return "redirect:/member/edit/input";
+		return "redirect:/member/regist/input";
 	}
-
-
-	/////////////////////////////////////////////////////////
-	// メンバー情報削除
-	/////////////////////////////////////////////////////////
-	
-	// メンバー情報削除
-	@RequestMapping(value={"/member/delete/transactfinish"}, method=RequestMethod.POST)
-	public String deleteComplete(MemberForm form, UserInfo userInfo, Model model, RedirectAttributes redirectAttributes){
-
-		try {
-			ModelMapper modelMapper = new ModelMapper();
-			Member member = modelMapper.map(form, Member.class);
-			memberService.deleteMember(member);
-		} catch (RuntimeException e) {
-			logger.error("メンバーの削除に失敗しました（メンバーID: " + form.getMemberId() + ")");
-			redirectAttributes.addFlashAttribute("errorMessage", "ユーザーの削除ができませんでした");
-			return "redirect:/member/memberDetail/" + form.getMemberId();
-		}
-		
-		redirectAttributes.addFlashAttribute("message","削除が完了しました");
-		return "redirect:/member";
-	}
-	
-	/////////////////////////////////////////////////////////
-	// メンバー詳細設定
-	/////////////////////////////////////////////////////////
-	
-	/**
-	 *  メンバー詳細画面　表示
-	 * @param mid
-	 * @param userInfo
-	 * @param model
-	 * @return
-	 */
-	@RequestMapping(value="/member/memberDetail/{mid}", method=RequestMethod.GET)
-	public String registDetailInput(@PathVariable("mid") String mid, UserInfo userInfo, Model model){
-		
-		//変更前情報取得
-		Member member = memberService.findById(Integer.parseInt(mid));
-		ModelMapper modelMapper = new ModelMapper();
-		MemberForm befMemberForm = modelMapper.map(member, MemberForm.class);
-
-		model.addAttribute("EnumTeam", EnumTeamKubun.decode(befMemberForm.getTeamKubun()));
-		model.addAttribute("EnumGrade", EnumGrade.decode(befMemberForm.getGrade()));
-		model.addAttribute("EnumSebango", EnumSebango.decode(befMemberForm.getNo()));
-		
-		// ユーザー情報取得
-		LoginUser loginUser = commonService.getLoginUser();
-		
-		model.addAttribute("userName", loginUser.getUserName());
-		model.addAttribute("memberForm", befMemberForm);
-		
-		return "/member/memberDetail";
-	}
-	
 	
 	@ExceptionHandler(RuntimeException.class)
 	public String handleRuntimeException(RuntimeException exception, RedirectAttributes redirectAttributes) {
