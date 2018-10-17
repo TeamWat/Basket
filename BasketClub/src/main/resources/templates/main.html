@@ -17,62 +17,78 @@
     </style>
 </head>
 <body>
-<div th:replace="navi::nav"></div>
-<div class="wrapper">
-        <div class="page-header section-dark" style="background-image: url('bootstrap/assets/img/antoine-barres.jpg')">
-            <div class="filter"></div>
-    		<div class="content-center">
-    			<div class="container">
-    				<div class="title-brand">
-    					<h1 class="presentation-title">Big Hurricane ＆ Yabedan</h1> 
-    					<div class="fog-low">
-    						<img src="bootstrap/assets/img/fog-low.png" alt="" />
-    					</div>
-    					<div class="fog-low right">
-    						<img src="bootstrap/assets/img/fog-low.png" alt="" />
-    					</div>
-    				</div>
+	<div th:replace="navi::nav"></div>
+	<div class="wrapper">
+	<!--  	<div class="page-header section-dark"
+			style="background-image: url('bootstrap/assets/img/antoine-barres.jpg')">
+	-->
+			<div class="page-header section-dark" style="background-image: url('bootstrap/assets/img/antoine-barres.jpg')">
+			<div class="filter"></div>
+			<div class="content-center">
+				<div class="container">
+					<div class="title-brand">
+						<h1 class="presentation-title">Big Hurricane ＆ Yabedan</h1>
+						<div class="fog-low">
+							<img src="bootstrap/assets/img/fog-low.png" alt="" />
+						</div>
+						<div class="fog-low right">
+							<img src="bootstrap/assets/img/fog-low.png" alt="" />
+						</div>
+					</div>
 
-    				<h2 class="presentation-subtitle text-center">Make your mark with a Free Bootstrap 4 UI Kit! </h2>
-    			</div>
-    		</div>
-            <div class="moving-clouds" style="background-image: url('bootstrap/assets/img/clouds.png'); ">
-            </div>
-    	</div>
-<div class="main">
-	<div class="section">
-    	<div class="container">
-			 <div class="tim-title">
-				 <h2>Information</h2>
-			 </div>
-             <div class="row">
-                 <div class="col-md-8">
-                 	<ul class="information-list">
-						<li>12月の練習スケジュールについて　（2017/11/01）</li>
-						<li>東戸塚校長杯の詳細について　（2017/11/14）</li>
-					</ul>
-					<p class="information-list-link"><a class="btn btn-link btn-success" href="/information"> >> お知らせ一覧へ</a></p>
-			 	</div>
-			 </div>
-			 <div class="row">
-                 <div class="col-md-8">
-                 	<ul class="information-list">
-						<li th:each="information: ${informationList}" class="information-list"
-							th:text="|${information.title} 　( ${information.displayRegistDate} )|"></li>
-					</ul>
-					<p class="information-list-link"><a class="btn btn-link btn-success" href="/information"> >> お知らせ一覧へ</a></p>
-			 	</div>
-			 </div>
-			<div class="row">
-                 <div class="col-md-8">
-                 	<ul class="information-list">
-						<li th:each="info: ${topForm.informationList}" class="information-list"
-							th:text="|${info.title} 　( ${#dates.format(info.registDate, 'yyyy/MM/dd HH:mm')} )|"></li>
-					</ul>
-					<p class="information-list-link"><a class="btn btn-link btn-success" href="/information"> >> お知らせ一覧へ</a></p>
-			 	</div>
-			 </div>
-			 <!--
+					<h2 class="presentation-subtitle text-center">Make your mark
+						with a Free Bootstrap 4 UI Kit!</h2>
+				</div>
+			</div>
+			<div class="moving-clouds"
+				style="background-image: url('bootstrap/assets/img/clouds.png');">
+			</div>
+		</div>
+		<div class="main">
+			<div class="section">
+				<div class="container">
+					<div class="tim-title">
+						<h2>Information</h2>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<ul class="information-list">
+								<li>12月の練習スケジュールについて （2017/11/01）</li>
+								<li>東戸塚校長杯の詳細について （2017/11/14）</li>
+							</ul>
+							<p class="information-list-link">
+								<a class="btn btn-link btn-success" href="/information"> >>
+									お知らせ一覧へ</a>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<ul class="information-list">
+								<li th:each="information: ${informationList}"
+									class="information-list"
+									th:text="|${information.title} 　( ${information.displayRegistDate} )|"></li>
+							</ul>
+							<p class="information-list-link">
+								<a class="btn btn-link btn-success" href="/information"> >>
+									お知らせ一覧へ</a>
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-8">
+							<ul class="information-list">
+								<li th:each="info: ${topForm.informationList}"
+									class="information-list"
+									th:text="|${info.title} 　( ${#dates.format(info.registDate, 'yyyy/MM/dd HH:mm')} )|"></li>
+							</ul>
+							<p class="information-list-link">
+								<a class="btn btn-link btn-success" href="/information"> >>
+									お知らせ一覧へ</a>
+							</p>
+						</div>
+					</div>
+					<!--
 			 <div class="panel-body">
 			 	<ul class="infolist">
 				 <?php foreach ($information as $info): ?>
@@ -90,109 +106,19 @@
 		  	</div>
 		  	  -->
 
-             <div class="tim-title">
-                 <h2>Basic Elements</h2>
-             </div>
-             <div id="buttons">
-                 <div class="tim-title">
-                     <h3>Buttons
-                         <br/>
-                         <small>Pick your style</small>
-                     </h3>
-                 </div>
-                 <div class="row">
-                     <div class="col-md-8">
-                         <button type="button" class="btn btn-danger">Default</button>
-                         <button type="button" class="btn btn-danger btn-round">Round</button>
-                         <button type="button" class="btn btn-danger btn-round"><i class="fa fa-heart"></i> With Icon</button>
-                         <button type="button" class="btn btn-danger btn-just-icon"><i class="fa fa-heart"></i></button>
-                         <button type="button" class="btn btn-danger btn-link">Simple</button>
-                     </div>
-                 </div>
-                 <div class="tim-title">
-                     <h3><small>Pick your size</small></h3>
-                 </div>
-                 <div class="row">
-                     <div class="col-md-8">
-                         <button type="button" class="btn btn-outline-danger btn-sm">Small</button>
-                         <button type="button" class="btn btn-outline-danger">Regular</button>
-                         <button type="button" class="btn btn-outline-danger btn-lg">Large</button>
-                     </div>
-                 </div>
-                 <div class="tim-title">
-                     <h3><small>Pick your color</small></h3>
-                 </div>
-                 <div class="row">
-				<div class="col-md-8">
-					<button type="button" class="btn btn-outline-default btn-round">Default</button>
-					<button type="button" class="btn btn-outline-primary btn-round">Primary</button>
-				                         <button type="button" class="btn btn-outline-info btn-round">Info</button>
-				                         <button type="button" class="btn btn-outline-success btn-round">Success</button>
-				                         <button type="button" class="btn btn-outline-warning btn-round">Warning</button>
-				                         <button type="button" class="btn btn-outline-danger btn-round">Danger</button>
+
+					<br />
+
 				</div>
-                 </div>
-                 <br/>
-                 <div class="row">
-                     <div class="col-md-8">
-						 <button type="button" class="btn btn-default btn-round">Default</button>
-                         <button type="button" class="btn btn-primary btn-round">Primary</button>
-                         <button type="button" class="btn btn-info btn-round">Info</button>
-                         <button type="button" class="btn btn-success btn-round">Success</button>
-                         <button type="button" class="btn btn-warning btn-round">Warning</button>
-                         <button type="button" class="btn btn-danger btn-round">Danger</button>
-                     </div>
-           </div>
-             </div>
-                 <br/>
-             <div class="tim-title">
-                 <h3>Links</h3>
-             </div>
-             <div class="row">
-                 <div class="col-md-8">
-                     <a href="#0" class="btn btn-link btn-default">Default</a>
-                     <a href="#0" class="btn btn-link btn-primary">Primary</a>
-                     <a href="#0" class="btn btn-link btn-success">Success</a>
-                     <a href="#0" class="btn btn-link btn-info">Info</a>
-                     <a href="#0" class="btn btn-link btn-warning">Warning</a>
-                     <a href="#0" class="btn btn-link btn-danger">Danger</a>
-                     <a href="#0" class="btn btn-link btn-neutral">Neutral</a>
-                 </div>
-             </div>
-             <br/>
-             <div class="tim-title">
-                 <h3>Inputs</h3>
-             </div>
-             <div class="row">
-                 <div class="col-sm-3">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Default"/>
-				</div>
-                 </div>
-                 <div class="col-sm-3">
-                     <div class="form-group has-success">
-                         <input type="text" class="form-control form-control-success" id="inputSuccess1" value="Success"/>
-                     </div>
-                 </div>
-                 <div class="col-sm-3">
-                     <div class="form-group has-danger">
-                         <input type="text" class="form-control form-control-danger" id="inputDanger1" value="Error"/>
-                         <div class="form-control-feedback">Sorry, that username's taken. Try another?</div>
-                     </div>
-                 </div>
-                 <div class="col-sm-3">
-                     <div class="input-group">
-                         <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"/>
-                         <span class="input-group-addon" id="basic-addon1"><i class="fa fa-group" aria-hidden="true"></i></span>
-                     </div>
-                 </div>
-             </div>
-             <br/>
-             
+			</div>
 		</div>
 	</div>
-</div>
-</div>
+	<footer>
+		<div class="fl">Copyright © big hurricane & yabedan </div>
+		<div class="fr">
+			<a href="/about/">about us</a>｜ <a href="/contact/">お問い合わせ</a>
+		</div>
+	</footer>
 </body>
 
 <!-- Core JS Files -->
