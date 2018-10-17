@@ -193,3 +193,35 @@ tr#templete {
 	color: #464646 !important;
 	font-size: 17px;
 }
+
+footer {
+    border-top: solid 5px #FFF;
+    border-bottom: solid 1px #FFF;
+    background-color: #534e47;
+    color: #FFF;
+    height: 40px;
+    padding: 10px 0;
+    position: relative;
+    clear: both;
+    width: 100%;
+}
+
+footer .fl {
+    float: left;
+    font-size: 68%;
+    padding-left: 18px;
+    opacity: 0.65;
+}
+
+footer .fr {
+    float: right;
+    font-size: 77%;
+    letter-spacing: 0.1em;
+    padding-right: 18px;
+}
+
+footer .fr a {
+    color: #FFF;
+    opacity: 0.65;
+    padding: 0 2px;
+}
