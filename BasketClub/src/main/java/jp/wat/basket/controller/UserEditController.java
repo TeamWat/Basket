@@ -114,7 +114,7 @@ public class UserEditController {
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("userForm", userForm);
 		
-		return "/user/edit/userEditInput";
+		return "user/edit/userEditInput";
 		
 	}
 		
@@ -287,7 +287,7 @@ public class UserEditController {
 		model.addAttribute("userForm", userForm);
 		model.addAttribute("nendoList", nendoList);
 		
-		return "/user/userDetail";
+		return "user/userDetail";
 	}
 	
 	
@@ -334,7 +334,7 @@ public class UserEditController {
 		model.addAttribute("usersMemberList", usersMemberList);
 		model.addAttribute("nendoMembers", nendoMembers);
 		
-		return "/user/usersMember";
+		return "user/usersMember";
 	}
 	
 	@ExceptionHandler(RuntimeException.class)

@@ -86,7 +86,7 @@ public class UserRegistController {
 		
 		model.addAttribute("userForm", userForm);
 		
-		return "/user/regist/userRegistInput";
+		return "user/regist/userRegistInput";
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class UserRegistController {
 		if(result.hasErrors()){
 			// ロールセレクトボックスのItemを設定
 			model.addAttribute("selectRole", EnumRole.values());
-			return "/user/regist/userRegistInput";
+			return "user/regist/userRegistInput";
 		}
 					
 		// ロールの設定
@@ -149,7 +149,7 @@ public class UserRegistController {
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("userForm", userForm);
 				
-		return "/user/regist/userRegistConfirm";
+		return "user/regist/userRegistConfirm";
 	
 	}
 	
@@ -192,7 +192,7 @@ public class UserRegistController {
 			model.addAttribute("selectRole", EnumRole.values());
 			model.addAttribute("userForm", form);
 			model.addAttribute("errorMessage", "想定外のエラーが発生しました。<br>操作をやり直してください。");
-			return "/user/regist/userRegistInput";
+			return "user/regist/userRegistInput";
 		}
 
 		redirectAttributes.addFlashAttribute("message","登録が完了しました");

@@ -69,7 +69,7 @@ public class MemberRegistController {
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", memberForm);
 		
-		return "/member/regist/memberRegistInput";
+		return "member/regist/memberRegistInput";
 	}
 	
 	// 登録画面　キャンセル
@@ -92,7 +92,7 @@ public class MemberRegistController {
 			model.addAttribute("selectTeam", EnumTeamKubun.values());
 			model.addAttribute("selectGrade", EnumGrade.values());
 			model.addAttribute("selectNo", EnumSebango.values());
-			return "/member/regist/memberRegistInput";
+			return "member/regist/memberRegistInput";
 		}
 		
 		//TODO 変更時の変更有無チェック
@@ -107,7 +107,7 @@ public class MemberRegistController {
 		
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", memberForm);
-		return "/member/regist/memberRegistConfirm";
+		return "member/regist/memberRegistConfirm";
 	}
 	
 	// 登録処理

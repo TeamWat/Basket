@@ -27,9 +27,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             // 入力したユーザーIDから認証を行うユーザー情報を取得する
         	user = repository.findById(userId);
         	
+        	System.out.println("UserDetailsServiceImpl.java : 入力したユーザーIDをもとにDBからユーザー情報を取得する");
+        	if(user == null){
+        		System.out.println("ユーザー情報取得できなかった");
+        	}else{
+        		System.out.println("ユーザー情報取得できた");
+        	}
+        	
+        	
             // 処理内容は省略
         } catch (Exception e) {
             // 取得時にExceptionが発生した場合
+        	System.out.println("例外発生：" + e);
             throw new UsernameNotFoundException("It can not be acquired User");
         }
 

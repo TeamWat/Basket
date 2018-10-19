@@ -76,7 +76,7 @@ public class MemberEditController {
 		
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", befMemberForm);
-		return "/member/edit/memberEditInput";
+		return "member/edit/memberEditInput";
 	}
 	
 	// 変更画面　キャンセル
@@ -174,7 +174,7 @@ public class MemberEditController {
 		model.addAttribute("userName", loginUser.getUserName());
 		model.addAttribute("memberForm", befMemberForm);
 		
-		return "/member/memberDetail";
+		return "member/memberDetail";
 	}
 	
 	
