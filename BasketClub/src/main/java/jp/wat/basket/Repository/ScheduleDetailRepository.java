@@ -6,6 +6,7 @@ import jp.wat.basket.entity.ScheduleDetail;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,7 +22,7 @@ public interface ScheduleDetailRepository extends JpaRepository<ScheduleDetail, 
 	 * 年度と月をキーにスケジュール情報を取得する
 	*/
 	@Query(value="select s from ScheduleDetail s where nendo = :nendo and month = :month")	
-	public List<ScheduleDetail> findByNengetsu(Integer nendo, Integer month);
+	public List<ScheduleDetail> findByNengetsu(@Param("nendo") Integer nendo, @Param("month") Integer month);
 
 	/**
 	 * 最後にInsertされたAUTO_INCREMENTの値を取得する

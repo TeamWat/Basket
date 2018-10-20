@@ -74,7 +74,7 @@ public class SchduleEditController {
 		
 		model.addAttribute("nendo", nendo);
 		model.addAttribute("scheduleDetailFormList", scheduleDetailFormList);
-		return "/schedule/edit/scheduleEdit";
+		return "schedule/edit/scheduleEdit";
 	}
 		
 	@ResponseBody

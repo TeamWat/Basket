@@ -10,6 +10,7 @@ import jp.wat.basket.entity.Member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,13 +27,13 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	 * メンバーIDをキーにメンバー情報を取得する
 	*/
 	@Query(value="select m from Member m where memberId = :memberId")	
-	public Member findById(Integer memberId);
+	public Member findById(@Param("memberId") Integer memberId);
 	
 	/**
 	 * 背番号(No)をキーにメンバー情報を取得する
 	*/
 	@Query(value="select m from Member m where no = :no")	
-	public Member findByNo(Integer no);
+	public Member findByNo(@Param("no") Integer no);
 
 	/**
 	 * メンバーが存在する年度を全て取得する
@@ -45,6 +46,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 	 * 年度をキーにメンバーを取得する
 	*/
 	@Query(value="select m from Member m where nendo = :nendo and deleteFlg = '0' order by nendo, teamKubun, no")	
-	public List<Member> findByNendo(Integer nendo);
+	public List<Member> findByNendo(@Param("nendo") Integer nendo);
 	
 }
